@@ -1,0 +1,16 @@
+[Unit]
+Description=Alight Motion Reverse API Service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/am-reverse
+ExecStart=/usr/bin/node server.js
+Restart=always
+RestartSec=3
+Environment=PORT=3300
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target

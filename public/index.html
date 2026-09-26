@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>am — activate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f5f1e8;
+  --ink: #111111;
+  --card: #ffffff;
+  --acc: #ffde00;
+  --acc2: #3d7bff;
+  --hot: #ff4d4d;
+  --grn: #00c853;
+  --line: 3px solid var(--ink);
+  --shadow: 6px 6px 0 var(--ink);
+}
+html[data-theme="dark"] {
+  --bg: #1a1a1f;
+  --ink: #e8e6df;
+  --card: #232329;
+  --acc: #f5d90a;
+  --acc2: #6b93ff;
+  --hot: #ff6b6b;
+  --grn: #2dd470;
+}
+* { margin: 0; padding: 0; box-sizing: border-box }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  line-height: 1.55;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 40px 16px;
+  background-image: radial-gradient(color-mix(in srgb, var(--ink) 35%, transparent) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.wrap { width: 100%; max-width: 500px }
+
+h1, h2, .tag { font-family: 'Archivo Black', sans-serif; text-transform: uppercase }
+
+header { margin-bottom: 22px }
+header h1 { font-size: 34px; line-height: 1.1; letter-spacing: -1px }
+header h1 em { font-style: normal; background: var(--acc); padding: 0 8px; box-shadow: 4px 4px 0 var(--ink); display: inline-block; transform: rotate(-1deg) }
+header p { font-family: 'Space Mono', monospace; font-size: 11.5px; margin-top: 8px; background: var(--ink); color: var(--bg); display: inline-block; padding: 3px 10px; transform: rotate(0.5deg) }
+
+.tag {
+  display: inline-block; font-size: 10.5px; letter-spacing: .08em;
+  padding: 3px 9px; border: var(--line); box-shadow: 3px 3px 0 var(--ink);
+  background: var(--bg); margin-bottom: 8px
+}
+.tag.blue { background: var(--acc2); color: #fff }
+.tag.grn  { background: var(--grn); color: #fff }
+.tag.acc  { background: var(--acc) }
+
+.steps { display: flex; gap: 8px; margin-bottom: 18px }
+.steps div {
+  flex: 1; padding: 7px 0; text-align: center;
+  font-family: 'Space Mono', monospace; font-size: 10.5px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .06em;
+  border: var(--line); background: var(--bg); box-shadow: 3px 3px 0 var(--ink)
+}
+.steps div.on { background: var(--acc) }
+.steps div.done { background: var(--grn); color: #fff }
+
+.panel {
+  background: var(--card);
+  border: var(--line);
+  box-shadow: var(--shadow);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.panel h2 { font-size: 17px; margin-bottom: 4px; letter-spacing: -.3px }
+.panel .hint { font-family: 'Space Mono', monospace; font-size: 11px; color: #888; margin-bottom: 14px }
+html[data-theme="dark"] .panel .hint { color: #999 }
+label {
+  display: block; font-family: 'Space Mono', monospace; font-weight: 700;
+  font-size: 10.5px; text-transform: uppercase; letter-spacing: .06em;
+  margin-bottom: 6px
+}
+input, textarea {
+  width: 100%;
+  background: var(--bg);
+  border: var(--line);
+  color: var(--ink);
+  font: inherit;
+  font-family: 'Space Mono', monospace;
+  padding: 10px 12px;
+  outline: none;
+}
+input:focus { box-shadow: 3px 3px 0 var(--acc2); border-color: var(--acc2) }
+
+button {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  background: var(--acc);
+  color: var(--ink);
+  border: var(--line);
+  box-shadow: 4px 4px 0 var(--ink);
+  padding: 11px 20px;
+  cursor: pointer;
+  margin-top: 14px;
+  transition: transform .08s, box-shadow .08s;
+}
+button:hover { transform: translate(-1px, -1px); box-shadow: 5px 5px 0 var(--ink) }
+button:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 var(--ink) }
+button.sec { background: var(--card) }
+button.blue { background: var(--acc2); color: #fff }
+button:disabled { opacity: .5; cursor: wait }
+
+.msg {
+  padding: 10px 12px; font-size: 12px; margin-top: 14px; display: none;
+  font-weight: 700; border: var(--line); box-shadow: 3px 3px 0 var(--ink)
+}
+.msg.err { display: block; background: var(--hot); color: #fff }
+.msg.ok  { display: block; background: var(--grn); color: #fff }
+
+.kv { display: flex; justify-content: space-between; gap: 10px; padding: 8px 0; border-bottom: 2px dashed var(--ink); font-size: 13px }
+.kv:last-child { border-bottom: none }
+.kv b { font-family: 'Space Mono', monospace; font-size: 10.5px; text-transform: uppercase; color: #555; font-weight: 700; white-space: nowrap }
+.kv span { font-weight: 700; text-align: right; word-break: break-all; max-width: 62% }
+.tok {
+  background: var(--bg); color: var(--grn); border: var(--line);
+  padding: 10px 12px; font-family: 'Space Mono', monospace;
+  font-size: 10.5px; word-break: break-all; max-height: 96px; overflow: hidden;
+  box-shadow: 3px 3px 0 var(--acc2)
+}
+button.tiny { margin: 0; padding: 6px 12px; font-size: 10.5px; box-shadow: 3px 3px 0 var(--ink) }
+.row { display: flex; gap: 10px; flex-wrap: wrap }
+
+footer { margin-top: 30px; font-family: 'Space Mono', monospace; font-size: 10.5px; text-align: center; color: #888 }
+footer b { background: var(--ink); color: var(--bg); padding: 1px 6px }
+.hide { display: none }
+
+/* ---------- THEME SWITCHER ---------- */
+.theme-switch {
+  position: fixed; top: 14px; right: 14px; z-index: 50;
+  display: inline-flex; align-items: center; gap: 0;
+  border: var(--line); box-shadow: 3px 3px 0 var(--ink);
+  background: var(--card); font-family: 'Space Mono', monospace
+}
+.theme-switch button {
+  margin: 0; padding: 6px 10px; font-family: 'Space Mono', monospace;
+  font-weight: 700; font-size: 10.5px; text-transform: uppercase;
+  background: transparent; color: var(--ink);
+  border: none; box-shadow: none; cursor: pointer
+}
+.theme-switch button.on { background: var(--acc); color: #111 }
+.theme-switch button:hover { transform: none; box-shadow: none }
+</style>
+</head>
+<body>
+<div class="theme-switch">
+  <button id="tmLight" onclick="setTheme('light')">☀ Terang</button><button id="tmDark" onclick="setTheme('dark')">☾ Gelap</button>
+</div>
+<div class="wrap">
+
+<header>
+  <span class="tag blue">gratis tanpa api key</span>
+  <h1>am — <em>activate</em></h1>
+  <p>alight motion premium membership activator</p>
+</header>
+
+<div class="steps">
+  <div id="n1" class="on">01 email</div>
+  <div id="n2">02 link</div>
+  <div id="n3">03 done</div>
+</div>
+
+<div class="panel">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:10px">
+    <div>
+      <label>total aktivasi</label>
+      <div style="font-family:'Archivo Black',sans-serif;font-size:30px;line-height:1" id="st-total">-</div>
+    </div>
+    <div style="text-align:right">
+      <label>hari ini</label>
+      <div style="font-family:'Archivo Black',sans-serif;font-size:30px;line-height:1;color:#fff;background:var(--grn);display:inline-block;padding:0 8px;border:var(--line);box-shadow:3px 3px 0 var(--ink)" id="st-today">-</div>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="p1">
+  <span class="tag">step 1</span>
+  <h2>masukkan email</h2>
+  <p class="hint">link login dikirim ke email, tanpa password.</p>
+  <label>email</label>
+  <input id="em" type="email" placeholder="nama@email.com">
+  <button id="b1">kirim link &rarr;</button>
+  <div id="m1" class="msg"></div>
+</div>
+
+<div class="panel hide" id="p2">
+  <span class="tag">step 2</span>
+  <h2>tempel link</h2>
+  <p class="hint">link terkirim ke <b id="w-em">-</b>. copy link dari email, paste di sini.</p>
+  <label>link verifikasi (magic link)</label>
+  <input id="lk" type="text" placeholder="https://... atau oobCode">
+  <div class="row">
+    <button class="sec" id="b2">&larr; kembali</button>
+    <button id="b3">verifikasi &rarr;</button>
+  </div>
+  <div id="m2" class="msg"></div>
+</div>
+
+<div class="panel hide" id="p3">
+  <span class="tag grn">sukses!</span>
+  <h2>premium aktif</h2>
+  <p class="hint">detail akun di bawah, token bisa dicopy.</p>
+  <div class="kv"><b>email</b><span id="r-em">-</span></div>
+  <div class="kv"><b>uid</b><span id="r-uid">-</span></div>
+  <div class="kv"><b>order</b><span id="r-ord">-</span></div>
+  <div style="margin-top:14px">
+    <label>id token</label>
+    <div class="tok" id="r-tok">-</div>
+    <div class="row">
+      <button class="tiny sec" id="b4">copy token</button>
+      <button class="tiny blue" id="b5">aktivasi lain</button>
+    </div>
+  </div>
+</div>
+
+<footer>alight motion api service &middot; <b>unofficial</b> &middot; use at your own risk</footer>
+
+</div>
+
+<script>
+const $ = i => document.getElementById(i)
+
+/* ---------- THEME (auto ikut device, bisa ganti manual) ---------- */
+function applyTheme(t) {
+  document.documentElement.setAttribute('data-theme', t)
+  const l = document.getElementById('tmLight'), d = document.getElementById('tmDark')
+  if (l && d) {
+    l.className = t === 'light' ? 'on' : ''
+    d.className = t === 'dark' ? 'on' : ''
+  }
+}
+function systemTheme() {
+  return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+}
+function setTheme(t) {
+  localStorage.setItem('am_theme', t)
+  applyTheme(t)
+}
+// init: pakai preferensi user kalau ada, kalau nggak ikut device
+const savedTheme = localStorage.getItem('am_theme')
+applyTheme(savedTheme || systemTheme())
+// kalau user belum pernah pilih manual, ikuti perubahan tema device realtime
+if (!savedTheme && window.matchMedia) {
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (!localStorage.getItem('am_theme')) applyTheme(e.matches ? 'dark' : 'light')
+  })
+}
+
+fetch('/api/stats').then(r => r.json()).then(j => {
+  $('st-total').textContent = Number(j.total || 0).toLocaleString('id-ID')
+  $('st-today').textContent = Number(j.today || 0).toLocaleString('id-ID')
+}).catch(() => {})
+
+const step = n => {
+  for (let i = 1; i <= 3; i++) {
+    $('p' + i).classList.toggle('hide', i !== n)
+    $('n' + i).className = i < n ? 'done' : (i === n ? 'on' : '')
+  }
+}
+const say = (id, txt, ok) => {
+  const m = $(id)
+  m.textContent = txt
+  m.className = 'msg ' + (ok ? 'ok' : 'err')
+}
+const busy = (b, on, t) => { b.disabled = on; if (t) b.textContent = t }
+
+$('b1').onclick = async () => {
+  const em = $('em').value.trim()
+  if (!em.includes('@')) return say('m1', 'email gak valid', 0)
+  const b = $('b1'); busy(b, true, 'mengirim...')
+  try {
+    const r = await fetch('/api/send-link', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ email: em })
+    })
+    const j = await r.json()
+    if (j.success) {
+      say('m1', 'link terkirim, cek email', 1)
+      $('w-em').textContent = em
+      setTimeout(() => step(2), 700)
+    } else {
+      say('m1', j.message || 'gagal', 0)
+    }
+  } catch {
+    say('m1', 'server gak nyambung', 0)
+  }
+  busy(b, false); b.textContent = 'kirim link \u2192'
+}
+
+$('b2').onclick = () => step(1)
+
+$('b3').onclick = async () => {
+  const raw = $('lk').value.trim()
+  if (!raw) return say('m2', 'link kosong', 0)
+  const b = $('b3'); busy(b, true, 'verifikasi...')
+  try {
+    const r = await fetch('/api/verify-link', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ email: $('w-em').textContent, magicLink: raw })
+    })
+    const j = await r.json()
+    if (j.success) {
+      const d = j.data
+      $('r-em').textContent = d.email
+      $('r-uid').textContent = d.uid
+      $('r-ord').textContent = d.orderId || '-'
+      $('r-tok').textContent = d.idToken
+      window.__tok = d.idToken
+      step(3)
+    } else {
+      say('m2', j.message || 'gagal', 0)
+    }
+  } catch {
+    say('m2', 'server gak nyambung', 0)
+  }
+  busy(b, false); b.textContent = 'verifikasi \u2192'
+}
+
+$('b4').onclick = () => { navigator.clipboard.writeText(window.__tok || ''); $('b4').textContent = 'copied' }
+$('b5').onclick = () => { $('lk').value = ''; step(1) }
+</script>
+</body>
+</html>

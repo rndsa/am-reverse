@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <title>am</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <style>
+    :root {
+      --bg: #f5f1e8;
+      --ink: #111111;
+      --card: #ffffff;
+      --acc: #ffde00;
+      --acc2: #3d7bff;
+      --hot: #ff4d4d;
+      --grn: #00c853;
+      --line: 3px solid var(--ink);
+      --shadow: 6px 6px 0 var(--ink);
+    }
+    html[data-theme="dark"] {
+      --bg: #1a1a1f;
+      --ink: #e8e6df;
+      --card: #232329;
+      --acc: #f5d90a;
+      --acc2: #6b93ff;
+      --hot: #ff6b6b;
+      --grn: #2dd470;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box }
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+      background-image: radial-gradient(var(--ink) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    html[data-theme="dark"] body {
+      background-image: radial-gradient(rgba(232,230,223,.18) 1px, transparent 1px);
+    }
+    .mono { font-family: 'Space Mono', monospace }
+    h1, h2, h3, .tag, button, .stat-num { font-family: 'Archivo Black', sans-serif; text-transform: uppercase }
+
+    .tag {
+      display: inline-block; font-size: 10.5px; letter-spacing: .08em;
+      padding: 3px 9px; border: var(--line); box-shadow: 3px 3px 0 var(--ink);
+      background: var(--bg); margin-bottom: 8px; font-weight: normal
+    }
+    .tag.blue { background: var(--acc2); color: #fff }
+    .tag.grn  { background: var(--grn); color: #fff }
+    .tag.acc  { background: var(--acc) }
+    .tag.hot  { background: var(--hot); color: #fff }
+
+    /* ---------- LOGIN GATE ---------- */
+    #gate {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px;
+    }
+    .gate-box {
+      width: 100%; max-width: 420px; background: var(--card);
+      border: var(--line); box-shadow: 10px 10px 0 var(--ink);
+      padding: 34px 28px; text-align: center
+    }
+    .gate-box h2 { font-size: 26px; letter-spacing: -0.5px; margin: 10px 0 6px }
+    .gate-box .sub { font-family: 'Space Mono', monospace; font-size: 11px; color: #777; margin-bottom: 20px }
+    .gate-box input {
+      width: 100%; background: var(--bg); border: var(--line);
+      font-family: 'Space Mono', monospace; font-size: 14px; font-weight: 700;
+      padding: 13px 14px; outline: none; text-align: center; letter-spacing: 2px
+    }
+    .gate-box input:focus { box-shadow: 4px 4px 0 var(--acc2); border-color: var(--acc2) }
+    .gate-btn {
+      width: 100%; margin-top: 16px; font-size: 14px; padding: 14px;
+      background: var(--acc); border: var(--line); box-shadow: 5px 5px 0 var(--ink);
+      cursor: pointer; transition: transform .08s, box-shadow .08s
+    }
+    .gate-btn:hover { transform: translate(-1px,-1px); box-shadow: 6px 6px 0 var(--ink) }
+    .gate-btn:active { transform: translate(4px,4px); box-shadow: 1px 1px 0 var(--ink) }
+    .gate-btn:disabled { opacity: .5; cursor: wait }
+    .gate-err {
+      display: none; margin-top: 14px; padding: 9px; font-weight: 700; font-size: 12px;
+      background: var(--hot); color: #fff; border: var(--line); box-shadow: 3px 3px 0 var(--ink)
+    }
+
+    /* ---------- PANEL ---------- */
+    #mainApp { display: none; max-width: 1100px; margin: 0 auto; padding: 28px 18px 60px }
+    header.phead {
+      display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;
+      margin-bottom: 26px; flex-wrap: wrap
+    }
+    header.phead h1 { font-size: 30px; letter-spacing: -1px; line-height: 1.05 }
+    header.phead h1 em { font-style: normal; background: var(--acc); padding: 0 8px; box-shadow: 4px 4px 0 var(--ink); display: inline-block; transform: rotate(-1deg) }
+    .hbtns { display: flex; gap: 10px; flex-wrap: wrap; align-items: center }
+
+    .pbtn {
+      font-size: 11px; padding: 9px 16px; background: var(--card); border: var(--line);
+      box-shadow: 4px 4px 0 var(--ink); cursor: pointer;
+      transition: transform .08s, box-shadow .08s; color: var(--ink)
+    }
+    .pbtn:hover { transform: translate(-1px,-1px); box-shadow: 5px 5px 0 var(--ink) }
+    .pbtn:active { transform: translate(3px,3px); box-shadow: 1px 1px 0 var(--ink) }
+    .pbtn.blue { background: var(--acc2); color: #fff }
+    .pbtn.grn  { background: var(--grn); color: #fff }
+    .pbtn.hot  { background: var(--hot); color: #fff }
+    .pbtn.acc  { background: var(--acc) }
+
+    /* Stats grid */
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px }
+    .stat-card {
+      background: var(--card); border: var(--line); box-shadow: var(--shadow); padding: 16px 18px
+    }
+    .stat-card label {
+      display: block; font-family: 'Space Mono', monospace; font-weight: 700;
+      font-size: 10px; text-transform: uppercase; letter-spacing: .07em; color: #777; margin-bottom: 6px
+    }
+    .stat-num { font-size: 30px; line-height: 1 }
+    .stat-sub { font-family: 'Space Mono', monospace; font-size: 10.5px; margin-top: 6px; color: #777 }
+    .stat-sub b { color: var(--ink) }
+    .stat-card.acc { background: var(--acc) }
+    .stat-card.grn { background: var(--grn); color: #fff }
+    .stat-card.grn .stat-sub, .stat-card.grn .stat-sub b { color: #fff }
+    .stat-card.grn .stat-sub { opacity: .9 }
+
+    /* Tabs */
+    .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px }
+    .tab {
+      font-size: 11.5px; padding: 10px 18px; background: var(--card);
+      border: var(--line); box-shadow: 4px 4px 0 var(--ink); cursor: pointer;
+      transition: transform .08s
+    }
+    .tab:hover { transform: translate(-1px,-1px) }
+    .tab.on { background: var(--ink); color: var(--acc) }
+
+    /* Panels & tables */
+    .sec { background: var(--card); border: var(--line); box-shadow: var(--shadow); margin-bottom: 24px }
+    .sec-head {
+      display: flex; justify-content: space-between; align-items: center; gap: 10px;
+      padding: 16px 18px; border-bottom: var(--line); background: var(--bg); flex-wrap: wrap
+    }
+    .sec-head h2 { font-size: 15px }
+    .sec-head .sub { font-family: 'Space Mono', monospace; font-size: 10.5px; color: #777; margin-top: 2px }
+    .sec-tools { display: flex; gap: 8px; align-items: center; flex-wrap: wrap }
+    .sec input[type="text"], .sec input[type="number"], .sec input[type="password"] {
+      background: var(--bg); border: 2px solid var(--ink); font-family: 'Space Mono', monospace;
+      font-size: 12px; padding: 8px 10px; outline: none
+    }
+    .sec input:focus { box-shadow: 3px 3px 0 var(--acc2) }
+
+    .tblwrap { overflow-x: auto }
+    table { width: 100%; border-collapse: collapse; font-size: 12.5px }
+    thead th {
+      font-family: 'Space Mono', monospace; font-weight: 700; font-size: 10px;
+      text-transform: uppercase; letter-spacing: .06em; text-align: left;
+      padding: 11px 16px; background: var(--card); border-bottom: var(--line); white-space: nowrap
+    }
+    tbody td { padding: 11px 16px; border-bottom: 2px dashed #ccc; vertical-align: middle }
+    tbody tr:last-child td { border-bottom: none }
+    tbody tr:hover { background: rgba(255,222,0,.18) }
+
+    .pill {
+      display: inline-block; font-family: 'Space Mono', monospace; font-weight: 700;
+      font-size: 10px; text-transform: uppercase; letter-spacing: .05em;
+      padding: 3px 9px; border: 2px solid var(--ink); cursor: pointer; box-shadow: 2px 2px 0 var(--ink)
+    }
+    .pill.on { background: var(--grn); color: #fff }
+    .pill.off { background: var(--hot); color: #fff }
+    .pill.code { background: var(--card); cursor: default }
+    .pill.ok { background: var(--grn); color: #fff; cursor: default }
+    .pill.warn { background: var(--acc); cursor: default }
+    .pill.err { background: var(--hot); color: #fff; cursor: default }
+    .method { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 11px }
+
+    /* Settings form */
+    .form-body { padding: 18px }
+    .frow { margin-bottom: 16px }
+    .frow label {
+      display: block; font-family: 'Space Mono', monospace; font-weight: 700;
+      font-size: 10.5px; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px
+    }
+    .frow input[type="text"], .frow input[type="number"] {
+      width: 100%; background: var(--bg); border: var(--line);
+      font-family: 'Space Mono', monospace; font-size: 13px; padding: 10px 12px; outline: none
+    }
+    .frow input:focus { box-shadow: 3px 3px 0 var(--acc2); border-color: var(--acc2) }
+    .toggle {
+      display: flex; justify-content: space-between; align-items: center; gap: 12px;
+      background: var(--bg); border: var(--line); padding: 14px; margin-bottom: 14px
+    }
+    .toggle .tt { font-weight: 700; font-size: 13px }
+    .toggle .ts { font-family: 'Space Mono', monospace; font-size: 10.5px; color: #777; margin-top: 2px }
+    .sw { position: relative; width: 54px; height: 28px; flex-shrink: 0 }
+    .sw input { opacity: 0; width: 0; height: 0 }
+    .sw span {
+      position: absolute; inset: 0; background: #ccc; border: var(--line);
+      cursor: pointer; transition: background .15s
+    }
+    .sw span::before {
+      content: ""; position: absolute; width: 18px; height: 18px; left: 3px; top: 2px;
+      background: var(--card); border: 2px solid var(--ink); transition: transform .15s
+    }
+    .sw input:checked + span { background: var(--grn) }
+    .sw input:checked + span::before { transform: translateX(26px) }
+
+    /* Modals */
+    .modal { position: fixed; inset: 0; background: rgba(17,17,17,.72); display: none; align-items: center; justify-content: center; padding: 18px; z-index: 100 }
+    .modal.open { display: flex }
+    .mbox {
+      width: 100%; max-width: 440px; background: var(--card); border: var(--line);
+      box-shadow: 10px 10px 0 var(--ink); padding: 26px
+    }
+    .mbox h3 { font-size: 18px; margin: 8px 0 4px }
+    .mbox .msub { font-family: 'Space Mono', monospace; font-size: 11px; color: #777; margin-bottom: 16px }
+    .mbox input { width: 100%; background: var(--bg); border: var(--line); font-family: 'Space Mono', monospace; font-size: 13px; padding: 11px 12px; outline: none; margin-bottom: 4px }
+    .mbox input:focus { box-shadow: 3px 3px 0 var(--acc2); border-color: var(--acc2) }
+    .mrow { display: flex; gap: 10px; justify-content: flex-end; margin-top: 14px }
+
+    .newkey-box {
+      background: var(--bg); color: var(--grn); border: var(--line);
+      font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700;
+      padding: 12px; word-break: break-all; box-shadow: 3px 3px 0 var(--acc2); margin-bottom: 14px
+    }
+
+    footer.pfoot { text-align: center; font-family: 'Space Mono', monospace; font-size: 10.5px; color: #777; margin-top: 30px }
+    footer.pfoot b { background: var(--ink); color: var(--bg); padding: 1px 6px }
+    .empty { text-align: center; padding: 30px; font-family: 'Space Mono', monospace; font-size: 11.5px; color: #777 }
+
+    /* ---------- THEME SWITCHER ---------- */
+    .theme-switch {
+      position: fixed; top: 14px; right: 14px; z-index: 90;
+      display: inline-flex; align-items: center;
+      border: var(--line); box-shadow: 3px 3px 0 var(--ink);
+      background: var(--card); font-family: 'Space Mono', monospace
+    }
+    .theme-switch button {
+      margin: 0; padding: 6px 10px; font-family: 'Space Mono', monospace;
+      font-weight: 700; font-size: 10.5px; text-transform: uppercase;
+      background: transparent; color: var(--ink);
+      border: none; box-shadow: none; cursor: pointer
+    }
+    .theme-switch button.on { background: var(--acc); color: #111 }
+    .theme-switch button:hover { transform: none; box-shadow: none }
+  </style>
+</head>
+<body>
+  <!-- theme switcher -->
+  <div class="theme-switch">
+    <button id="tmLight" onclick="setTheme('light')">☀ Terang</button><button id="tmDark" onclick="setTheme('dark')">☾ Gelap</button>
+  </div>
+
+  <!-- ══════════ LOGIN GATE ══════════ -->
+  <div id="gate">
+    <div class="gate-box">
+      <span class="tag hot">restricted area</span>
+      <h2>Admin Login</h2>
+      <div class="sub">halaman tersembunyi — masukkan password admin</div>
+      <form id="gateForm">
+        <input type="password" id="gatePassInput" placeholder="PASSWORD" autocomplete="off" required>
+        <div id="gateErr" class="gate-err"></div>
+        <button type="submit" id="btnGateLogin" class="gate-btn">MASUK &rarr;</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ══════════ MAIN PANEL ══════════ -->
+  <div id="mainApp">
+
+    <header class="phead">
+      <div>
+        <span class="tag grn">login sukses</span>
+        <h1>am <em>admin</em> panel</h1>
+        <div class="mono" style="font-size:11px;margin-top:6px;color:#555">kelola api key, logs &amp; service</div>
+      </div>
+      <div class="hbtns">
+        <a href="/" target="_blank" style="text-decoration:none"><button class="pbtn blue">Web UI &rarr;</button></a>
+        <button class="pbtn hot" onclick="logoutAdmin()">Logout</button>
+      </div>
+    </header>
+
+    <!-- Stats -->
+    <div class="stats">
+      <div class="stat-card">
+        <label>Total API Keys</label>
+        <div class="stat-num" id="statTotalKeys">-</div>
+        <div class="stat-sub"><b id="statActiveKeys">-</b> aktif &bull; <b id="statInactiveKeys">-</b> nonaktif</div>
+      </div>
+      <div class="stat-card acc">
+        <label>Total Requests</label>
+        <div class="stat-num" id="statTotalReqs">-</div>
+        <div class="stat-sub">pemanggilan api client</div>
+      </div>
+      <div class="stat-card grn">
+        <label>Total Aktivasi</label>
+        <div class="stat-num" id="statTotalActs">-</div>
+        <div class="stat-sub">hari ini: <b id="statTodayActs">-</b> akun</div>
+      </div>
+      <div class="stat-card">
+        <label>Status Service</label>
+        <div class="stat-num" style="color:var(--grn)">● ONLINE</div>
+        <div class="stat-sub">ram <b id="statRam">-</b> mb &bull; port 3300</div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab on" id="tabBtn-keys"     onclick="switchTab('keys')">Kelola API Key</button>
+      <button class="tab"    id="tabBtn-logs"     onclick="switchTab('logs')">Live Request Logs</button>
+      <button class="tab"    id="tabBtn-settings" onclick="switchTab('settings')">Pengaturan Service</button>
+      <button class="tab"    id="tabBtn-sessions" onclick="switchTab('sessions')">Riwayat Aktivasi</button>
+    </div>
+
+    <!-- TAB KEYS -->
+    <section id="tab-keys">
+      <div class="sec">
+        <div class="sec-head">
+          <div>
+            <h2>Kunci Akses Client</h2>
+            <div class="sub">semua client yang boleh manggil api via post</div>
+          </div>
+          <div class="sec-tools">
+            <input type="text" id="keySearchInput" oninput="filterKeys()" placeholder="cari nama / key..." size="22">
+            <button class="pbtn grn" onclick="openCreateModal()">+ Buat Key</button>
+          </div>
+        </div>
+        <div class="tblwrap">
+          <table>
+            <thead><tr>
+              <th>Nama / Label</th><th>API Key</th><th>Requests</th><th>Terakhir Dipakai</th><th>Status</th><th>Aksi</th>
+            </tr></thead>
+            <tbody id="keysTableBody">
+              <tr><td colspan="6" class="empty">memuat...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB LOGS -->
+    <section id="tab-logs" style="display:none">
+      <div class="sec">
+        <div class="sec-head">
+          <div>
+            <h2>Live HTTP Logs</h2>
+            <div class="sub"><span id="logCountBadge" class="mono">0 logs</span> &bull; auto refresh 3.5s</div>
+          </div>
+          <div class="sec-tools">
+            <input type="text" id="logSearchInput" oninput="loadLogs()" placeholder="cari path / ip / email..." size="22">
+            <button class="pbtn" onclick="loadLogs()">Refresh</button>
+            <button class="pbtn hot" onclick="clearAllLogs()">Sapu Log</button>
+          </div>
+        </div>
+        <div class="tblwrap">
+          <table>
+            <thead><tr>
+              <th>Waktu</th><th>Method &amp; Endpoint</th><th>Status</th><th>Durasi</th><th>IP</th><th>Identity</th><th>Detail</th>
+            </tr></thead>
+            <tbody id="logsTableBody">
+              <tr><td colspan="7" class="empty">memuat...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB SETTINGS -->
+    <section id="tab-settings" style="display:none">
+      <div class="sec">
+        <div class="sec-head">
+          <div>
+            <h2>Pengaturan Global</h2>
+            <div class="sub">password admin, service, rate limit</div>
+          </div>
+        </div>
+        <form class="form-body" id="settingsForm" onsubmit="handleSaveSettings(event)">
+          <div class="frow">
+            <label>Password Admin Panel</label>
+            <input type="text" id="setAdminPass" autocomplete="off">
+          </div>
+          <div class="toggle">
+            <div>
+              <div class="tt">Wajibkan API Key</div>
+              <div class="ts">kalau mati, post langsung dari luar juga bisa tanpa key</div>
+            </div>
+            <label class="sw"><input type="checkbox" id="setRequireKey"><span></span></label>
+          </div>
+          <div class="toggle">
+            <div>
+              <div class="tt">Status Layanan</div>
+              <div class="ts">matikan = semua request ditolak 503 maintenance</div>
+            </div>
+            <label class="sw"><input type="checkbox" id="setServiceActive"><span></span></label>
+          </div>
+          <div class="frow">
+            <label>Rate Limit per Menit (RPM)</label>
+            <input type="number" id="setRpm" min="1" max="1000">
+          </div>
+          <div class="frow">
+            <label>Pesan Maintenance</label>
+            <input type="text" id="setMaintMsg">
+          </div>
+          <button type="submit" id="btnSaveSettings" class="pbtn grn">Simpan Pengaturan</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- TAB SESSIONS -->
+    <section id="tab-sessions" style="display:none">
+      <div class="sec">
+        <div class="sec-head">
+          <div>
+            <h2>Riwayat Aktivasi</h2>
+            <div class="sub">akun yang sukses diinject premium</div>
+          </div>
+          <div class="sec-tools">
+            <button class="pbtn" onclick="loadSessions()">Refresh</button>
+          </div>
+        </div>
+        <div class="tblwrap">
+          <table>
+            <thead><tr>
+              <th>Waktu</th><th>Email</th><th>UID</th><th>Order ID</th><th>API Key</th><th>Status</th>
+            </tr></thead>
+            <tbody id="sessionsTableBody">
+              <tr><td colspan="6" class="empty">memuat...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <footer class="pfoot">am admin panel &middot; <b>hidden</b> &middot; jangan share link ini</footer>
+  </div>
+
+  <!-- Modal: Create Key -->
+  <div class="modal" id="createModal">
+    <div class="mbox">
+      <span class="tag acc">new key</span>
+      <h3>Buat API Key Baru</h3>
+      <div class="msub">key langsung aktif setelah dibuat</div>
+      <form onsubmit="handleCreateKey(event)">
+        <div class="frow"><label>Nama / Keterangan *</label><input type="text" id="newKeyName" placeholder="misal: bot telegram @user" required></div>
+        <div class="frow"><label>Prefix</label><input type="text" id="newKeyPrefix" value="am-sk" placeholder="am-sk"></div>
+        <div class="mrow">
+          <button type="button" class="pbtn" onclick="closeCreateModal()">Batal</button>
+          <button type="submit" id="btnSubmitCreate" class="pbtn grn">Generate</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Success -->
+  <div class="modal" id="successModal">
+    <div class="mbox">
+      <span class="tag grn">sukses!</span>
+      <h3>Key Berhasil Dibuat</h3>
+      <div class="msub">salin sekarang — jangan sampe hilang</div>
+      <div class="newkey-box" id="newKeyDisplay">-</div>
+      <div class="mrow">
+        <button class="pbtn" onclick="copyGeneratedKey()">Salin</button>
+        <button class="pbtn acc" onclick="closeSuccessModal()">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let allKeys = [];
+    let currentTab = 'keys';
+    let logPollInterval = null;
+    let adminToken = '';
+
+    /* ---------- THEME (auto ikut device, bisa ganti manual) ---------- */
+    function applyTheme(t) {
+      document.documentElement.setAttribute('data-theme', t)
+      const l = document.getElementById('tmLight'), d = document.getElementById('tmDark')
+      if (l && d) {
+        l.className = t === 'light' ? 'on' : ''
+        d.className = t === 'dark' ? 'on' : ''
+      }
+    }
+    function systemTheme() {
+      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+    }
+    function setTheme(t) {
+      localStorage.setItem('am_theme', t)
+      applyTheme(t)
+    }
+    const savedTheme = localStorage.getItem('am_theme')
+    applyTheme(savedTheme || systemTheme())
+    if (!savedTheme && window.matchMedia) {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        if (!localStorage.getItem('am_theme')) applyTheme(e.matches ? 'dark' : 'light')
+      })
+    }
+
+    // ══════════ HARD LOGIN GATE ══════════
+    async function gateLogin(password) {
+      const r = await fetch('/api/keys/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password })
+      })
+      return r.json()
+    }
+
+    document.getElementById('gateForm').addEventListener('submit', async e => {
+      e.preventDefault()
+      const p = document.getElementById('gatePassInput').value.trim()
+      const btn = document.getElementById('btnGateLogin')
+      const err = document.getElementById('gateErr')
+      if (!p) return
+
+      btn.disabled = true; btn.textContent = 'CEKING...'
+      try {
+        const j = await gateLogin(p)
+        if (j.success) {
+          adminToken = p
+          try { sessionStorage.setItem('am_admin_tok', p) } catch {}
+          document.getElementById('gate').style.display = 'none'
+          document.getElementById('mainApp').style.display = 'block'
+          loadAllData()
+        } else {
+          err.style.display = 'block'
+          err.textContent = j.message || 'password salah!'
+          document.getElementById('gatePassInput').value = ''
+        }
+      } catch (ex) {
+        err.style.display = 'block'
+        err.textContent = 'server gak nyambung'
+      }
+      btn.disabled = false; btn.textContent = 'MASUK \u2192'
+    })
+
+    function logoutAdmin() {
+      adminToken = ''
+      try { sessionStorage.removeItem('am_admin_tok') } catch {}
+      document.getElementById('mainApp').style.display = 'none'
+      document.getElementById('gate').style.display = 'flex'
+      document.getElementById('gatePassInput').value = ''
+      document.getElementById('gateErr').style.display = 'none'
+      if (logPollInterval) clearInterval(logPollInterval)
+    }
+
+    // auto-restore sesi dalam tab yang sama (tutup tab = login lagi)
+    (function restore() {
+      try {
+        const t = sessionStorage.getItem('am_admin_tok')
+        if (t) {
+          gateLogin(t).then(j => {
+            if (j.success) {
+              adminToken = t
+              document.getElementById('gate').style.display = 'none'
+              document.getElementById('mainApp').style.display = 'block'
+              loadAllData()
+            } else {
+              sessionStorage.removeItem('am_admin_tok')
+            }
+          }).catch(() => {})
+        }
+      } catch {}
+    })()
+
+    // ══════════ NAV ══════════
+    let statsPollInterval = null
+
+    function switchTab(tab) {
+      currentTab = tab
+      const map = ['keys', 'logs', 'settings', 'sessions']
+      map.forEach(t => {
+        document.getElementById('tab-' + t).style.display = (t === tab) ? 'block' : 'none'
+        document.getElementById('tabBtn-' + t).className = 'tab' + (t === tab ? ' on' : '')
+      })
+      if (logPollInterval) { clearInterval(logPollInterval); logPollInterval = null }
+      if (tab === 'logs') {
+        loadLogs()
+        logPollInterval = setInterval(loadLogs, 3500)
+      } else if (tab === 'settings') {
+        loadSettings()
+      } else if (tab === 'sessions') {
+        loadSessions()
+      }
+    }
+
+    const H = () => ({ 'x-admin-password': adminToken, 'Content-Type': 'application/json' })
+
+    async function loadAllData() {
+      loadStats(); loadKeys()
+      // auto-refresh stats tiap 4 detik selama panel kebuka (realtime angka)
+      if (!statsPollInterval) {
+        statsPollInterval = setInterval(() => {
+          if (adminToken && document.getElementById('mainApp').style.display !== 'none') loadStats()
+        }, 4000)
+      }
+    }
+
+    // animasi angka naik biar keliatan hidup
+    function animateNum(el, target) {
+      const current = parseInt((el.textContent || '0').replace(/\D/g, '')) || 0
+      if (current === target) return
+      el.textContent = target.toLocaleString('id-ID')
+      el.style.transition = 'none'
+      el.style.transform = 'scale(1.12)'
+      setTimeout(() => {
+        el.style.transition = 'transform .25s ease'
+        el.style.transform = 'scale(1)'
+      }, 30)
+    }
+
+    async function loadStats() {
+      try {
+        const r = await fetch('/api/keys/stats-detailed', { headers: H() })
+        if (r.status === 403 || r.status === 401) { logoutAdmin(); return }
+        const j = await r.json()
+        if (j.success && j.data) {
+          const d = j.data
+          $('statTotalKeys').textContent = d.total_keys
+          $('statActiveKeys').textContent = d.active_keys
+          $('statInactiveKeys').textContent = d.inactive_keys
+          animateNum($('statTotalReqs'), d.total_requests || 0)
+          animateNum($('statTotalActs'), d.total_activations || 0)
+          animateNum($('statTodayActs'), d.today_activations || 0)
+          $('statRam').textContent = d.memory_usage_mb
+        }
+      } catch (e) {}
+    }
+
+    async function loadKeys() {
+      try {
+        const r = await fetch('/api/keys', { headers: H() })
+        const j = await r.json()
+        if (j.success && j.keys) {
+          allKeys = j.keys
+          renderKeysTable(allKeys)
+        }
+      } catch (e) {
+        document.getElementById('keysTableBody').innerHTML = '<tr><td colspan="6" class="empty">gagal memuat keys</td></tr>'
+      }
+    }
+
+    function renderKeysTable(keys) {
+      const tb = document.getElementById('keysTableBody')
+      if (keys.length === 0) {
+        tb.innerHTML = '<tr><td colspan="6" class="empty">belum ada api key dibuat</td></tr>'
+        return
+      }
+      tb.innerHTML = keys.map(k => `
+        <tr>
+          <td style="font-weight:700">${ESC(k.name)}</td>
+          <td>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span class="mono" style="font-size:11px">${ESC(k.key_masked)}</span>
+              <button class="pill" onclick="copyKeyText('${ESC(k.key)}', this)" title="salin full key">COPY</button>
+            </div>
+          </td>
+          <td class="mono" style="font-weight:700">${(k.total_requests || 0).toLocaleString('id-ID')}</td>
+          <td class="mono" style="font-size:11px">${k.last_used_at ? new Date(k.last_used_at).toLocaleString('id-ID') : '<span style="color:var(--hot)">belum pernah</span>'}</td>
+          <td><button class="pill ${k.is_active ? 'on' : 'off'}" onclick="toggleKey('${ESC(k.key)}')">${k.is_active ? 'AKTIF' : 'MATI'}</button></td>
+          <td><button class="pill off" onclick="deleteKey('${ESC(k.key)}')">HAPUS</button></td>
+        </tr>
+      `).join('')
+    }
+
+    function filterKeys() {
+      const q = document.getElementById('keySearchInput').value.toLowerCase().trim()
+      if (!q) return renderKeysTable(allKeys)
+      renderKeysTable(allKeys.filter(k => k.name.toLowerCase().includes(q) || k.key.toLowerCase().includes(q)))
+    }
+
+    async function toggleKey(key) {
+      const r = await fetch('/api/keys/' + encodeURIComponent(key) + '/toggle', { method: 'PATCH', headers: H() })
+      const j = await r.json()
+      if (j.success) { loadKeys(); loadStats() } else alert(j.message || 'gagal')
+    }
+
+    async function deleteKey(key) {
+      if (!confirm('Yakin hapus API key ini permanen?')) return
+      const r = await fetch('/api/keys/' + encodeURIComponent(key), { method: 'DELETE', headers: H() })
+      const j = await r.json()
+      if (j.success) { loadKeys(); loadStats() } else alert(j.message || 'gagal')
+    }
+
+    // ══════════ CREATE KEY ══════════
+    function openCreateModal() {
+      document.getElementById('newKeyName').value = ''
+      document.getElementById('newKeyPrefix').value = 'am-sk'
+      document.getElementById('createModal').classList.add('open')
+    }
+    function closeCreateModal() { document.getElementById('createModal').classList.remove('open') }
+    function closeSuccessModal() { document.getElementById('successModal').classList.remove('open') }
+
+    async function handleCreateKey(e) {
+      e.preventDefault()
+      const name = document.getElementById('newKeyName').value.trim()
+      const prefix = document.getElementById('newKeyPrefix').value.trim() || 'am-sk'
+      const btn = document.getElementById('btnSubmitCreate')
+      btn.disabled = true; btn.textContent = '...'
+      try {
+        const r = await fetch('/api/keys', { method: 'POST', headers: H(), body: JSON.stringify({ name, prefix }) })
+        const j = await r.json()
+        if (j.success && j.key) {
+          closeCreateModal()
+          document.getElementById('newKeyDisplay').textContent = j.key.key
+          document.getElementById('successModal').classList.add('open')
+          loadKeys(); loadStats()
+        } else {
+          alert(j.message || 'gagal bikin key')
+        }
+      } catch (ex) { alert('error: ' + ex.message) }
+      btn.disabled = false; btn.textContent = 'Generate'
+    }
+
+    function copyGeneratedKey() {
+      navigator.clipboard.writeText(document.getElementById('newKeyDisplay').textContent.trim())
+      event.target.textContent = 'TERSALIN ✓'
+      setTimeout(() => { event.target.textContent = 'Salin' }, 1800)
+    }
+
+    function copyKeyText(txt, el) {
+      navigator.clipboard.writeText(txt)
+      const old = el.textContent
+      el.textContent = 'OK ✓'
+      setTimeout(() => { el.textContent = old }, 1300)
+    }
+
+    // ══════════ LOGS ══════════
+    async function loadLogs() {
+      try {
+        const q = document.getElementById('logSearchInput')?.value.trim() || ''
+        const r = await fetch('/api/keys/logs?limit=100&q=' + encodeURIComponent(q), { headers: H() })
+        const j = await r.json()
+        const tb = document.getElementById('logsTableBody')
+        if (j.success && j.logs) {
+          document.getElementById('logCountBadge').textContent = j.logs.length + ' logs'
+          if (j.logs.length === 0) {
+            tb.innerHTML = '<tr><td colspan="7" class="empty">belum ada log request</td></tr>'
+            return
+          }
+          tb.innerHTML = j.logs.map(l => {
+            const sp = l.status >= 500 ? 'err' : (l.status >= 400 ? 'warn' : 'ok')
+            const mc = l.method === 'POST' ? 'color:var(--acc2)' : 'color:#555'
+            const time = new Date(l.timestamp).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+            return `
+              <tr>
+                <td class="mono" style="font-size:11px;color:#555">${time}</td>
+                <td><span class="method" style="${mc}">${l.method}</span> <span class="mono" style="font-size:11px">${ESC(l.path)}</span></td>
+                <td><span class="pill ${sp}">${l.status}</span></td>
+                <td class="mono" style="font-size:11px">${l.duration_ms}ms</td>
+                <td class="mono" style="font-size:11px">${ESC(l.ip)}</td>
+                <td style="font-weight:700;font-size:11.5px">${ESC(l.api_key_name)}</td>
+                <td class="mono" style="font-size:10.5px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${ESC(l.details || '')}">${ESC(l.details || '-')}</td>
+              </tr>
+            `
+          }).join('')
+        }
+      } catch (e) {}
+    }
+
+    async function clearAllLogs() {
+      if (!confirm('Hapus SEMUA log HTTP?')) return
+      const r = await fetch('/api/keys/logs', { method: 'DELETE', headers: H() })
+      const j = await r.json()
+      if (j.success) loadLogs()
+    }
+
+    // ══════════ SETTINGS ══════════
+    async function loadSettings() {
+      try {
+        const r = await fetch('/api/keys/settings', { headers: H() })
+        const j = await r.json()
+        if (j.success && j.settings) {
+          const s = j.settings
+          document.getElementById('setAdminPass').value = s.admin_password || ''
+          document.getElementById('setRequireKey').checked = !!s.require_api_key
+          document.getElementById('setServiceActive').checked = !!s.service_active
+          document.getElementById('setRpm').value = s.rate_limit_rpm || 60
+          document.getElementById('setMaintMsg').value = s.maintenance_message || ''
+        }
+      } catch (e) {}
+    }
+
+    async function handleSaveSettings(e) {
+      e.preventDefault()
+      const payload = {
+        admin_password: document.getElementById('setAdminPass').value.trim(),
+        require_api_key: document.getElementById('setRequireKey').checked,
+        service_active: document.getElementById('setServiceActive').checked,
+        rate_limit_rpm: parseInt(document.getElementById('setRpm').value) || 60,
+        maintenance_message: document.getElementById('setMaintMsg').value.trim()
+      }
+      const btn = document.getElementById('btnSaveSettings')
+      btn.disabled = true; btn.textContent = 'Menyimpan...'
+      try {
+        const r = await fetch('/api/keys/settings', { method: 'PUT', headers: H(), body: JSON.stringify(payload) })
+        const j = await r.json()
+        if (j.success) {
+          if (payload.admin_password) {
+            adminToken = payload.admin_password
+            try { sessionStorage.setItem('am_admin_tok', adminToken) } catch {}
+          }
+          btn.textContent = 'TERSIMPAN ✓'
+        } else {
+          btn.textContent = 'GAGAL'
+          alert(j.message || 'gagal simpan')
+        }
+      } catch (ex) { alert('error: ' + ex.message) }
+      btn.disabled = false
+      setTimeout(() => { btn.textContent = 'Simpan Pengaturan' }, 1600)
+    }
+
+    // ══════════ SESSIONS ══════════
+    async function loadSessions() {
+      try {
+        const r = await fetch('/api/keys/sessions', { headers: H() })
+        const j = await r.json()
+        const tb = document.getElementById('sessionsTableBody')
+        if (j.success && j.sessions) {
+          if (j.sessions.length === 0) {
+            tb.innerHTML = '<tr><td colspan="6" class="empty">belum ada riwayat aktivasi</td></tr>'
+            return
+          }
+          tb.innerHTML = j.sessions.map(s => `
+            <tr>
+              <td class="mono" style="font-size:11px">${new Date(s.saved_at).toLocaleString('id-ID')}</td>
+              <td style="font-weight:700">${ESC(s.email)}</td>
+              <td class="mono" style="font-size:10.5px">${ESC(s.uid || '-')}</td>
+              <td class="mono" style="font-size:10.5px;font-weight:700">${ESC(s.orderId || '-')}</td>
+              <td style="font-size:11.5px">${ESC(s.key_used || 'Master')}</td>
+              <td><span class="pill ok">BERHASIL</span></td>
+            </tr>
+          `).join('')
+        }
+      } catch (e) {}
+    }
+
+    function ESC(str) {
+      if (!str) return ''
+      return String(str)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#039;')
+    }
+  </script>
+</body>
+</html>
