@@ -36,7 +36,7 @@ Project **AM-Reverse** dibangun untuk:
 | Kategori | Kelebihan (Pros) | Kekurangan (Cons) |
 |---|---|---|
 | **Penyimpanan (Storage)** | **Zero External Database**: Siap jalan tanpa konfigurasi database server tambahan; mendukung file JSON lokal atau ephemeral `/tmp` di environment serverless. | **Multi-Instance Sync Terbatas**: Pada cluster serverless tanpa persistent volume (seperti Vercel free tier), penyimpanan sesi lokal akan di-reset saat instance di-recycle. |
-| **Autentikasi** | **Hybrid Mode**: Mendukung autentikasi via query string (`?api_key=`), header `x-api-key`, header `Authorization: Bearer`, serta bypass mode untuk direct tokens. | **IP Rate Limit Upstream**: Terlalu banyak permintaan token dalam waktu singkat dari satu IP host bisa terkena rate limit dari upstream Firebase Auth. |
+| **Autentikasi** | **Strict Header-Only Mode**: Mendukung autentikasi aman via header `x-api-key` atau `Authorization: Bearer ***`. Parameter query string dicabut demi mencegah kebocoran kunci di log. | **IP Rate Limit Upstream**: Terlalu banyak permintaan token dalam waktu singkat dari satu IP host bisa terkena rate limit dari upstream Firebase Auth. |
 | **Performa & Ukuran** | **Ultra Lightweight**: Konsumsi RAM sangat rendah (<50MB) berbasis Express.js dan Node.js native crypto; latency minimal karena relay langsung ke upstream. | **Ketergantungan API Pihak Ketiga**: Sangat bergantung pada struktur payload dan stabilitas endpoint upstream Google Identity Toolkit & Cloud Functions. |
 | **Integrasi Klien** | **Universal HTTP Method**: Semua endpoint utama mendukung metode `GET` dan `POST`, memudahkan integrasi ke script bot Telegram, cURL, maupun browser. | **Single-Point Maintenance**: Jika format verifikasi deep link atau User-Agent mobile berubah dari sisi upstream, relay proxy perlu diperbarui. |
 
@@ -119,6 +119,24 @@ Base URL: `http://localhost:3000` (atau domain produksi Anda)
 | `/api/keys` | `GET` / `POST` | Manajemen API Key (Admin Only) | `x-admin-password` |
 
 Dokumentasi lengkap dan contoh respons JSON tersedia di [API_DOCS.md](API_DOCS.md).
+
+---
+
+## 🛡️ Security Hardening & Audit Changelog
+
+AM-Reverse telah diaudit dan diperkuat terhadap vektor auth bypass dan kebocoran kredensial:
+
+1. **Origin Header Spoofing Elimination**:
+   - Fungsi verifikasi header `Referer` / `Origin` client (`isSameOrigin`) di middleware dicabut total.
+   - Mengeliminasi celah auth bypass di mana penyerang sebelumnya dapat mem-bypass kewajiban API key hanya dengan memalsukan header referer (`Referer: https://localhost/`).
+2. **Strict Header-Only Credential Enforcement**:
+   - Parameter sensitif `?api_key=` dan `?key=` dicabut dari URL query string pada seluruh endpoint relay dan manajemen kunci.
+   - Seluruh autentikasi wajib dikirimkan melalui header resmi (`x-api-key`, `x-master-key`, atau `Authorization: Bearer <key>`), mencegah kebocoran kredensial pada server access logs, proksi hulu, dan riwayat peramban.
+3. **Hardened Admin Authentication & Sanitized Defaults**:
+   - Menghapus kata sandi default `admin-secret-change-me`; konsol administratif langsung gagal-tertutup (*fail-closed*) jika password tidak dikonfigurasi melalui environment variable.
+   - Seluruh token rahasia upstream Google Firebase dan Play Billing diisolasi penuh ke dalam *environment variables* (`FIREBASE_API_KEY`, `PLAY_PURCHASE_TOKEN`).
+4. **Timing-Safe Comparison**:
+   - Evaluasi pencocokan master key dan admin passkey dievaluasi secara aman guna memitigasi serangan waktu (*timing side-channel attacks*).
 
 ---
 
