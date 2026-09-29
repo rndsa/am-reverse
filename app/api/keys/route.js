@@ -12,17 +12,18 @@ function requireMasterKey(req, res, next) {
   const settings = getSettings()
   const masterKey = getKeysData().master_key
   const envMaster = process.env.MASTER_API_KEY
-  const adminPass = settings.admin_password || process.env.ADMIN_PASSWORD || 'admin-secret-change-me'
+  const adminPass = settings.admin_password || process.env.ADMIN_PASSWORD || ''
   
   let key = req.headers['x-api-key'] || req.headers['x-master-key'] || req.headers['x-admin-password'] || ''
   if (!key && req.headers['authorization']) {
     key = req.headers['authorization'].replace(/^Bearer\s+/i, '').trim()
   }
-  if (!key && req.query.key) key = req.query.key
 
-  const isValid = (key === masterKey) || 
-                  (envMaster && key === envMaster) || 
-                  (key === adminPass)
+  const isValid = Boolean(
+    (masterKey && key === masterKey) || 
+    (envMaster && key === envMaster) || 
+    (adminPass && key === adminPass)
+  )
 
   if (!key || !isValid) {
     return res.status(403).json({
