@@ -7,17 +7,17 @@
   <title>am</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <style>
     :root {
-      --bg: #f5f1e8;
+      --bg: #f4f4f6;
       --ink: #111111;
       --card: #ffffff;
       --acc: #ffde00;
-      --acc2: #3d7bff;
-      --hot: #ff4d4d;
-      --grn: #00c853;
+      --acc2: #2563eb;
+      --hot: #dc2626;
+      --grn: #15803d;
       --line: 3px solid var(--ink);
       --shadow: 6px 6px 0 var(--ink);
     }
@@ -32,7 +32,7 @@
     }
     * { margin: 0; padding: 0; box-sizing: border-box }
     body {
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
       background: var(--bg);
       color: var(--ink);
       min-height: 100vh;
@@ -46,7 +46,7 @@
     h1, h2, h3, .tag, button, .stat-num { font-family: 'Archivo Black', sans-serif; text-transform: uppercase }
 
     .tag {
-      display: inline-block; font-size: 10.5px; letter-spacing: .08em;
+      display: inline-block; font-size: 12px; letter-spacing: .08em;
       padding: 3px 9px; border: var(--line); box-shadow: 3px 3px 0 var(--ink);
       background: var(--bg); margin-bottom: 8px; font-weight: normal
     }
@@ -65,7 +65,7 @@
       padding: 34px 28px; text-align: center
     }
     .gate-box h2 { font-size: 26px; letter-spacing: -0.5px; margin: 10px 0 6px }
-    .gate-box .sub { font-family: 'Space Mono', monospace; font-size: 11px; color: #777; margin-bottom: 20px }
+    .gate-box .sub { font-family: 'Space Mono', monospace; font-size: 13px; color: #334155; margin-bottom: 20px }
     .gate-box input {
       width: 100%; background: var(--bg); border: var(--line);
       font-family: 'Space Mono', monospace; font-size: 14px; font-weight: 700;
@@ -96,7 +96,7 @@
     .hbtns { display: flex; gap: 10px; flex-wrap: wrap; align-items: center }
 
     .pbtn {
-      font-size: 11px; padding: 9px 16px; background: var(--card); border: var(--line);
+      font-size: 13px; padding: 9px 16px; background: var(--card); border: var(--line);
       box-shadow: 4px 4px 0 var(--ink); cursor: pointer;
       transition: transform .08s, box-shadow .08s; color: var(--ink)
     }
@@ -114,10 +114,10 @@
     }
     .stat-card label {
       display: block; font-family: 'Space Mono', monospace; font-weight: 700;
-      font-size: 10px; text-transform: uppercase; letter-spacing: .07em; color: #777; margin-bottom: 6px
+      font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: #334155; margin-bottom: 6px
     }
     .stat-num { font-size: 30px; line-height: 1 }
-    .stat-sub { font-family: 'Space Mono', monospace; font-size: 10.5px; margin-top: 6px; color: #777 }
+    .stat-sub { font-family: 'Space Mono', monospace; font-size: 12px; margin-top: 6px; color: #334155 }
     .stat-sub b { color: var(--ink) }
     .stat-card.acc { background: var(--acc) }
     .stat-card.grn { background: var(--grn); color: #fff }
@@ -127,7 +127,7 @@
     /* Tabs */
     .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px }
     .tab {
-      font-size: 11.5px; padding: 10px 18px; background: var(--card);
+      font-size: 13px; padding: 10px 18px; background: var(--card);
       border: var(--line); box-shadow: 4px 4px 0 var(--ink); cursor: pointer;
       transition: transform .08s
     }
@@ -141,7 +141,7 @@
       padding: 16px 18px; border-bottom: var(--line); background: var(--bg); flex-wrap: wrap
     }
     .sec-head h2 { font-size: 15px }
-    .sec-head .sub { font-family: 'Space Mono', monospace; font-size: 10.5px; color: #777; margin-top: 2px }
+    .sec-head .sub { font-family: 'Space Mono', monospace; font-size: 12px; color: #334155; margin-top: 2px }
     .sec-tools { display: flex; gap: 8px; align-items: center; flex-wrap: wrap }
     .sec input[type="text"], .sec input[type="number"], .sec input[type="password"] {
       background: var(--bg); border: 2px solid var(--ink); font-family: 'Space Mono', monospace;
@@ -152,7 +152,7 @@
     .tblwrap { overflow-x: auto }
     table { width: 100%; border-collapse: collapse; font-size: 12.5px }
     thead th {
-      font-family: 'Space Mono', monospace; font-weight: 700; font-size: 10px;
+      font-family: 'Space Mono', monospace; font-weight: 700; font-size: 12px;
       text-transform: uppercase; letter-spacing: .06em; text-align: left;
       padding: 11px 16px; background: var(--card); border-bottom: var(--line); white-space: nowrap
     }
@@ -162,7 +162,7 @@
 
     .pill {
       display: inline-block; font-family: 'Space Mono', monospace; font-weight: 700;
-      font-size: 10px; text-transform: uppercase; letter-spacing: .05em;
+      font-size: 12px; text-transform: uppercase; letter-spacing: .05em;
       padding: 3px 9px; border: 2px solid var(--ink); cursor: pointer; box-shadow: 2px 2px 0 var(--ink)
     }
     .pill.on { background: var(--grn); color: #fff }
@@ -171,14 +171,14 @@
     .pill.ok { background: var(--grn); color: #fff; cursor: default }
     .pill.warn { background: var(--acc); cursor: default }
     .pill.err { background: var(--hot); color: #fff; cursor: default }
-    .method { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 11px }
+    .method { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 13px }
 
     /* Settings form */
     .form-body { padding: 18px }
     .frow { margin-bottom: 16px }
     .frow label {
       display: block; font-family: 'Space Mono', monospace; font-weight: 700;
-      font-size: 10.5px; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px
+      font-size: 12px; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px
     }
     .frow input[type="text"], .frow input[type="number"] {
       width: 100%; background: var(--bg); border: var(--line);
@@ -190,7 +190,7 @@
       background: var(--bg); border: var(--line); padding: 14px; margin-bottom: 14px
     }
     .toggle .tt { font-weight: 700; font-size: 13px }
-    .toggle .ts { font-family: 'Space Mono', monospace; font-size: 10.5px; color: #777; margin-top: 2px }
+    .toggle .ts { font-family: 'Space Mono', monospace; font-size: 12px; color: #334155; margin-top: 2px }
     .sw { position: relative; width: 54px; height: 28px; flex-shrink: 0 }
     .sw input { opacity: 0; width: 0; height: 0 }
     .sw span {
@@ -212,7 +212,7 @@
       box-shadow: 10px 10px 0 var(--ink); padding: 26px
     }
     .mbox h3 { font-size: 18px; margin: 8px 0 4px }
-    .mbox .msub { font-family: 'Space Mono', monospace; font-size: 11px; color: #777; margin-bottom: 16px }
+    .mbox .msub { font-family: 'Space Mono', monospace; font-size: 13px; color: #334155; margin-bottom: 16px }
     .mbox input { width: 100%; background: var(--bg); border: var(--line); font-family: 'Space Mono', monospace; font-size: 13px; padding: 11px 12px; outline: none; margin-bottom: 4px }
     .mbox input:focus { box-shadow: 3px 3px 0 var(--acc2); border-color: var(--acc2) }
     .mrow { display: flex; gap: 10px; justify-content: flex-end; margin-top: 14px }
@@ -223,9 +223,9 @@
       padding: 12px; word-break: break-all; box-shadow: 3px 3px 0 var(--acc2); margin-bottom: 14px
     }
 
-    footer.pfoot { text-align: center; font-family: 'Space Mono', monospace; font-size: 10.5px; color: #777; margin-top: 30px }
+    footer.pfoot { text-align: center; font-family: 'Space Mono', monospace; font-size: 12px; color: #334155; margin-top: 30px }
     footer.pfoot b { background: var(--ink); color: var(--bg); padding: 1px 6px }
-    .empty { text-align: center; padding: 30px; font-family: 'Space Mono', monospace; font-size: 11.5px; color: #777 }
+    .empty { text-align: center; padding: 30px; font-family: 'Space Mono', monospace; font-size: 13px; color: #334155 }
 
     /* ---------- THEME SWITCHER ---------- */
     .theme-switch {
@@ -236,7 +236,7 @@
     }
     .theme-switch button {
       margin: 0; padding: 6px 10px; font-family: 'Space Mono', monospace;
-      font-weight: 700; font-size: 10.5px; text-transform: uppercase;
+      font-weight: 700; font-size: 12px; text-transform: uppercase;
       background: transparent; color: var(--ink);
       border: none; box-shadow: none; cursor: pointer
     }
@@ -271,7 +271,7 @@
       <div>
         <span class="tag grn">login sukses</span>
         <h1>am <em>admin</em> panel</h1>
-        <div class="mono" style="font-size:11px;margin-top:6px;color:#555">kelola api key, logs &amp; service</div>
+        <div class="mono" style="font-size: 13px;margin-top:6px;color:#555">kelola api key, logs &amp; service</div>
       </div>
       <div class="hbtns">
         <a href="/" target="_blank" style="text-decoration:none"><button class="pbtn blue">Web UI &rarr;</button></a>
@@ -649,12 +649,12 @@
           <td style="font-weight:700">${ESC(k.name)}</td>
           <td>
             <div style="display:flex;align-items:center;gap:8px">
-              <span class="mono" style="font-size:11px">${ESC(k.key_masked)}</span>
+              <span class="mono" style="font-size: 13px">${ESC(k.key_masked)}</span>
               <button class="pill" onclick="copyKeyText('${ESC(k.key)}', this)" title="salin full key">COPY</button>
             </div>
           </td>
           <td class="mono" style="font-weight:700">${(k.total_requests || 0).toLocaleString('id-ID')}</td>
-          <td class="mono" style="font-size:11px">${k.last_used_at ? new Date(k.last_used_at).toLocaleString('id-ID') : '<span style="color:var(--hot)">belum pernah</span>'}</td>
+          <td class="mono" style="font-size: 13px">${k.last_used_at ? new Date(k.last_used_at).toLocaleString('id-ID') : '<span style="color:var(--hot)">belum pernah</span>'}</td>
           <td><button class="pill ${k.is_active ? 'on' : 'off'}" onclick="toggleKey('${ESC(k.key)}')">${k.is_active ? 'AKTIF' : 'MATI'}</button></td>
           <td><button class="pill off" onclick="deleteKey('${ESC(k.key)}')">HAPUS</button></td>
         </tr>
@@ -742,13 +742,13 @@
             const time = new Date(l.timestamp).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
             return `
               <tr>
-                <td class="mono" style="font-size:11px;color:#555">${time}</td>
-                <td><span class="method" style="${mc}">${l.method}</span> <span class="mono" style="font-size:11px">${ESC(l.path)}</span></td>
+                <td class="mono" style="font-size: 13px;color:#555">${time}</td>
+                <td><span class="method" style="${mc}">${l.method}</span> <span class="mono" style="font-size: 13px">${ESC(l.path)}</span></td>
                 <td><span class="pill ${sp}">${l.status}</span></td>
-                <td class="mono" style="font-size:11px">${l.duration_ms}ms</td>
-                <td class="mono" style="font-size:11px">${ESC(l.ip)}</td>
-                <td style="font-weight:700;font-size:11.5px">${ESC(l.api_key_name)}</td>
-                <td class="mono" style="font-size:10.5px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${ESC(l.details || '')}">${ESC(l.details || '-')}</td>
+                <td class="mono" style="font-size: 13px">${l.duration_ms}ms</td>
+                <td class="mono" style="font-size: 13px">${ESC(l.ip)}</td>
+                <td style="font-weight:700;font-size: 13px">${ESC(l.api_key_name)}</td>
+                <td class="mono" style="font-size: 12px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${ESC(l.details || '')}">${ESC(l.details || '-')}</td>
               </tr>
             `
           }).join('')
@@ -821,11 +821,11 @@
           }
           tb.innerHTML = j.sessions.map(s => `
             <tr>
-              <td class="mono" style="font-size:11px">${new Date(s.saved_at).toLocaleString('id-ID')}</td>
+              <td class="mono" style="font-size: 13px">${new Date(s.saved_at).toLocaleString('id-ID')}</td>
               <td style="font-weight:700">${ESC(s.email)}</td>
-              <td class="mono" style="font-size:10.5px">${ESC(s.uid || '-')}</td>
-              <td class="mono" style="font-size:10.5px;font-weight:700">${ESC(s.orderId || '-')}</td>
-              <td style="font-size:11.5px">${ESC(s.key_used || 'Master')}</td>
+              <td class="mono" style="font-size: 12px">${ESC(s.uid || '-')}</td>
+              <td class="mono" style="font-size: 12px;font-weight:700">${ESC(s.orderId || '-')}</td>
+              <td style="font-size: 13px">${ESC(s.key_used || 'Master')}</td>
               <td><span class="pill ok">BERHASIL</span></td>
             </tr>
           `).join('')

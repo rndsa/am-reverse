@@ -6,16 +6,16 @@
 <title>am — activate</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #f5f1e8;
+  --bg: #f4f4f6;
   --ink: #111111;
   --card: #ffffff;
   --acc: #ffde00;
-  --acc2: #3d7bff;
+  --acc2: #2563eb;
   --hot: #ff4d4d;
-  --grn: #00c853;
+  --grn: #15803d;
   --line: 3px solid var(--ink);
   --shadow: 6px 6px 0 var(--ink);
 }
@@ -32,7 +32,7 @@ html[data-theme="dark"] {
 body {
   background: var(--bg);
   color: var(--ink);
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
   font-size: 14px;
   line-height: 1.55;
   min-height: 100vh;
@@ -49,10 +49,10 @@ h1, h2, .tag { font-family: 'Archivo Black', sans-serif; text-transform: upperca
 header { margin-bottom: 22px }
 header h1 { font-size: 34px; line-height: 1.1; letter-spacing: -1px }
 header h1 em { font-style: normal; background: var(--acc); padding: 0 8px; box-shadow: 4px 4px 0 var(--ink); display: inline-block; transform: rotate(-1deg) }
-header p { font-family: 'Space Mono', monospace; font-size: 11.5px; margin-top: 8px; background: var(--ink); color: var(--bg); display: inline-block; padding: 3px 10px; transform: rotate(0.5deg) }
+header p { font-family: 'Space Mono', monospace; font-size: 13px; margin-top: 8px; background: var(--ink); color: var(--bg); display: inline-block; padding: 3px 10px; transform: rotate(0.5deg) }
 
 .tag {
-  display: inline-block; font-size: 10.5px; letter-spacing: .08em;
+  display: inline-block; font-size: 12px; letter-spacing: .08em;
   padding: 3px 9px; border: var(--line); box-shadow: 3px 3px 0 var(--ink);
   background: var(--bg); margin-bottom: 8px
 }
@@ -63,7 +63,7 @@ header p { font-family: 'Space Mono', monospace; font-size: 11.5px; margin-top: 
 .steps { display: flex; gap: 8px; margin-bottom: 18px }
 .steps div {
   flex: 1; padding: 7px 0; text-align: center;
-  font-family: 'Space Mono', monospace; font-size: 10.5px; font-weight: 700;
+  font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700;
   text-transform: uppercase; letter-spacing: .06em;
   border: var(--line); background: var(--bg); box-shadow: 3px 3px 0 var(--ink)
 }
@@ -78,11 +78,11 @@ header p { font-family: 'Space Mono', monospace; font-size: 11.5px; margin-top: 
   margin-bottom: 20px;
 }
 .panel h2 { font-size: 17px; margin-bottom: 4px; letter-spacing: -.3px }
-.panel .hint { font-family: 'Space Mono', monospace; font-size: 11px; color: #888; margin-bottom: 14px }
+.panel .hint { font-family: 'Space Mono', monospace; font-size: 13px; color: #52525b; margin-bottom: 14px }
 html[data-theme="dark"] .panel .hint { color: #999 }
 label {
   display: block; font-family: 'Space Mono', monospace; font-weight: 700;
-  font-size: 10.5px; text-transform: uppercase; letter-spacing: .06em;
+  font-size: 12px; text-transform: uppercase; letter-spacing: .06em;
   margin-bottom: 6px
 }
 input, textarea {
@@ -126,18 +126,18 @@ button:disabled { opacity: .5; cursor: wait }
 
 .kv { display: flex; justify-content: space-between; gap: 10px; padding: 8px 0; border-bottom: 2px dashed var(--ink); font-size: 13px }
 .kv:last-child { border-bottom: none }
-.kv b { font-family: 'Space Mono', monospace; font-size: 10.5px; text-transform: uppercase; color: #555; font-weight: 700; white-space: nowrap }
+.kv b { font-family: 'Space Mono', monospace; font-size: 12px; text-transform: uppercase; color: #555; font-weight: 700; white-space: nowrap }
 .kv span { font-weight: 700; text-align: right; word-break: break-all; max-width: 62% }
 .tok {
   background: var(--bg); color: var(--grn); border: var(--line);
   padding: 10px 12px; font-family: 'Space Mono', monospace;
-  font-size: 10.5px; word-break: break-all; max-height: 96px; overflow: hidden;
+  font-size: 12px; word-break: break-all; max-height: 96px; overflow: hidden;
   box-shadow: 3px 3px 0 var(--acc2)
 }
-button.tiny { margin: 0; padding: 6px 12px; font-size: 10.5px; box-shadow: 3px 3px 0 var(--ink) }
+button.tiny { margin: 0; padding: 6px 12px; font-size: 12px; box-shadow: 3px 3px 0 var(--ink) }
 .row { display: flex; gap: 10px; flex-wrap: wrap }
 
-footer { margin-top: 30px; font-family: 'Space Mono', monospace; font-size: 10.5px; text-align: center; color: #888 }
+footer { margin-top: 30px; font-family: 'Space Mono', monospace; font-size: 12px; text-align: center; color: #52525b }
 footer b { background: var(--ink); color: var(--bg); padding: 1px 6px }
 .hide { display: none }
 
@@ -150,7 +150,7 @@ footer b { background: var(--ink); color: var(--bg); padding: 1px 6px }
 }
 .theme-switch button {
   margin: 0; padding: 6px 10px; font-family: 'Space Mono', monospace;
-  font-weight: 700; font-size: 10.5px; text-transform: uppercase;
+  font-weight: 700; font-size: 12px; text-transform: uppercase;
   background: transparent; color: var(--ink);
   border: none; box-shadow: none; cursor: pointer
 }
@@ -171,9 +171,9 @@ footer b { background: var(--ink); color: var(--bg); padding: 1px 6px }
 </header>
 
 <div class="steps">
-  <div id="n1" class="on">01 email</div>
-  <div id="n2">02 link</div>
-  <div id="n3">03 done</div>
+  <div id="n1" class="on">Email</div>
+  <div id="n2">Verifikasi</div>
+  <div id="n3">Selesai</div>
 </div>
 
 <div class="panel">
