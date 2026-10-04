@@ -10,10 +10,10 @@ const path = require('path')
 const readline = require('readline')
 
 const cfg = {
-  key: process.env.FIREBASE_API_KEY || '«redacted:AIza…»',
-  idt: process.env.IDENTITY_TOOLKIT_URL || 'https://www.googleapis.com/identitytoolkit/v3/relyingparty',
-  stk: process.env.SECURE_TOKEN_URL || 'https://securetoken.googleapis.com/v1/token',
-  vfy: process.env.VERIFY_PURCHASE_URL || 'https://us-central1-alight-creative.cloudfunctions.net/verifyPurchase'
+  key: process.env.FIREBASE_API_KEY || '',  // [FIX R23] jangan hardcode
+  idt: 'https://www.googleapis.com/identitytoolkit/v3/relyingparty',
+  stk: 'https://securetoken.googleapis.com/v1/token',
+  vfy: 'https://us-central1-alight-creative.cloudfunctions.net/verifyPurchase'
 }
 
 const dip = () => [crypto.randomInt(1,255), crypto.randomInt(0,255), crypto.randomInt(0,255), crypto.randomInt(1,255)].join('.')
@@ -124,7 +124,7 @@ async function pro(id) {
   const b = {
     data: {
       productId: 'am.full.sub.annual.19q4',
-      token: process.env.PLAY_PURCHASE_TOKEN || 'mmgaobamlahbbeccfplmbkbb.AO-J1OzqG0or_GJJIx-ms8GrTm-jaglCRfhQSRPUZKpl2YspYS-oN7_94uv8RC5vQbvd_Ios2pPDStZ2n7F0hLE3FiOU7HS3R6Fquulv5xLXFECSv4ctElw',
+      token: 'mmgaobamlahbbeccfplmbkbb.AO-J1OzqG0or_GJJIx-ms8GrTm-jaglCRfhQSRPUZKpl2YspYS-oN7_94uv8RC5vQbvd_Ios2pPDStZ2n7F0hLE3FiOU7HS3R6Fquulv5xLXFECSv4ctElw',
       skuType: 'subs',
       orderId: o
     }
@@ -132,7 +132,7 @@ async function pro(id) {
   const h = {
     ...h2,
     authorization: 'Bearer ' + id,
-    'firebase-instance-id-token': process.env.FIREBASE_INSTANCE_ID || 'cSDnCyp3T-uwp07z3tL86T:APA91bFkmvvsHw5nnqa1SBFci-99DRsKClLiETdRrVcJjS5yBx1v_FbCb1d8WhBuea_zmwnYBktyTIzcRhN4b6uNOUur9wPc0gKXmJDoZic0LhNq5V2s0xI'
+    'firebase-instance-id-token': 'cSDnCyp3T-uwp07z3tL86T:APA91bFkmvvsHw5nnqa1SBFci-99DRsKClLiETdRrVcJjS5yBx1v_FbCb1d8WhBuea_zmwnYBktyTIzcRhN4b6uNOUur9wPc0gKXmJDoZic0LhNq5V2s0xI'
   }
   try {
     const r = await axios.post(cfg.vfy, b, { headers: sp(h) })

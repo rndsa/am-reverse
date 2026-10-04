@@ -1,146 +1,60 @@
-# AM-Reverse
+<div align="center">
 
-[![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org)
-[![Platform](https://img.shields.io/badge/Platform-Vercel%20%7C%20Linux%20VPS-black?style=flat-square)](https://vercel.com)
-[![Architecture](https://img.shields.io/badge/Architecture-Stateless%20%7C%20Hybrid%20Token-blue?style=flat-square)](#arsitektur--flow)
-[![License](https://img.shields.io/badge/License-MIT-orange?style=flat-square)](LICENSE)
+# ⚡ AlightMotion Premium Activate
 
-High-performance, zero-database reverse proxy, authentication relay, and session synchronization gateway for Alight Motion mobile clients. Designed to automate Firebase magic link authentication, secure token exchanges, and hybrid session token renewal via lightweight HTTP REST endpoints.
+**unofficial alight motion premium activator**
 
----
+*reverse engineered — cli & web, no ads, no tracking*
 
-## 🌐 Web Preview
+**live:** [am.neonode.my.id](https://am.neonode.my.id)
 
-### 🖥️ Client Web Interface
-![AM-Reverse Web Client](assets/preview-client.png)
+<img src="https://img.shields.io/badge/status-unofficial-orange" alt="">
+<img src="https://img.shields.io/badge/reverse--engineering-deep-red" alt="">
+<img src="https://img.shields.io/badge/node-18%2B-green" alt="">
 
-### 🔐 Administrative Console
-![AM-Reverse Admin Console](assets/preview-admin.png)
+**team reverse — neo:** ansari • zenno
 
----
+</div>
 
-## 🎯 Untuk Apa Project Ini Berjalan?
-
-Otomasi akun dan sinkronisasi sesi aplikasi mobile Alight Motion biasanya membutuhkan interaksi manual lewat deep link aplikasi Android/iOS, penanganan token Firebase Identity Platform, serta pertukaran `idToken` dan `refreshToken` yang rumit. 
-
-Project **AM-Reverse** dibangun untuk:
-1. **Mengeliminasi Kebutuhan Database Eksternal**: Berjalan sepenuhnya secara stateless atau menggunakan local file JSON (`data/`) tanpa ketergantungan PostgreSQL, MySQL, ataupun MongoDB.
-2. **Menyederhanakan Otomasi Akun**: Mengubah alur multi-step autentikasi mobile (request email link &rarr; oobCode extraction &rarr; identity exchange &rarr; purchase verification) menjadi panggilan REST API sederhana yang bisa dipanggil oleh bot Telegram, terminal CLI, atau web UI.
-3. **Mendukung Mode Autentikasi Hybrid**: Dapat berjalan dalam mode *Managed Key* (proteksi API Key `am-sk-...` untuk multi-tenant/client) maupun *Direct Token* (tanpa API key, langsung menggunakan raw token) secara fleksibel.
-4. **Resiliensi Sesi Otomatis**: Menyediakan endpoint reaktivasi (`/api/reactivate`) untuk memperbarui sesi yang kadaluarsa menggunakan refresh token tanpa perlu login ulang dari awal.
+> ⚠️ **UNOFFICIAL — bukan alat resmi dari Alight Creative.**
+> Dibuat murni dari **reverse engineering mendalam** terhadap aplikasi Android Alight Motion: di-snip trafiknya, dibedah protokol Firebase Auth & endpoint `verifyPurchase`-nya, lalu di-reimplement jadi CLI + web. Kalau kelakuanmu kena ban, tanggung sendiri.
 
 ---
 
-## ⚖️ Kelebihan & Kekurangan
+## apa yang bisa dilakuin
 
-| Kategori | Kelebihan (Pros) | Kekurangan (Cons) |
-|---|---|---|
-| **Penyimpanan (Storage)** | **Zero External Database**: Siap jalan tanpa konfigurasi database server tambahan; mendukung file JSON lokal atau ephemeral `/tmp` di environment serverless. | **Multi-Instance Sync Terbatas**: Pada cluster serverless tanpa persistent volume (seperti Vercel free tier), penyimpanan sesi lokal akan di-reset saat instance di-recycle. |
-| **Autentikasi** | **Strict Header-Only Mode**: Mendukung autentikasi aman via header `x-api-key` atau `Authorization: Bearer ***`. Parameter query string dicabut demi mencegah kebocoran kunci di log. | **IP Rate Limit Upstream**: Terlalu banyak permintaan token dalam waktu singkat dari satu IP host bisa terkena rate limit dari upstream Firebase Auth. |
-| **Performa & Ukuran** | **Ultra Lightweight**: Konsumsi RAM sangat rendah (<50MB) berbasis Express.js dan Node.js native crypto; latency minimal karena relay langsung ke upstream. | **Ketergantungan API Pihak Ketiga**: Sangat bergantung pada struktur payload dan stabilitas endpoint upstream Google Identity Toolkit & Cloud Functions. |
-| **Integrasi Klien** | **Universal HTTP Method**: Semua endpoint utama mendukung metode `GET` dan `POST`, memudahkan integrasi ke script bot Telegram, cURL, maupun browser. | **Single-Point Maintenance**: Jika format verifikasi deep link atau User-Agent mobile berubah dari sisi upstream, relay proxy perlu diperbarui. |
+- **magic link login** — masuk pake email doang, tanpa password, tanpa akun google
+- **premium aktif otomatis** — langsung nempel ke akun setelah verifikasi
+- **auto refresh token** — aktivasi ulang kapan aja dari sesi tersimpan
+- **dual mode** — CLI buat yang mager, web UI buat yang mau tampilan
+- **stealth headers** — nyamar 100% sebagai app android asli (`x-android-package` + `x-android-cert`)
 
----
+## cara pakai
 
-## 🏗️ Arsitektur & Flow
-
-```text
-┌───────────────────────┐
-│ Klien (Bot / Web / CLI)│
-└───────────┬───────────┘
-            │ 1. GET /api/send-link?email=...
-            ▼
-┌────────────────────────────────────────────────────────┐
-│ AM-Reverse Gateway (:3000 / Edge)                      │
-│ ├─ Middleware: Rate Limiter & Hybrid Auth Validator    │
-│ ├─ In-Memory / Local Storage (/data atau /tmp)         │
-│ └─ IP Header Spoofing & Mobile Dalvik Emulator         │
-└───────────┬────────────────────────────────────────────┘
-            │ 2. OOB Code Verification
-            ▼
-┌────────────────────────────────────────────────────────┐
-│ Upstream Services                                      │
-│ ├─ Google Identity Toolkit (Firebase Auth Exchange)    │
-│ └─ Alight Creative Cloud Functions (Purchase Engine)   │
-└────────────────────────────────────────────────────────┘
+### cli
 ```
+node am.js
+```
+| | |
+|---|---|
+| `1` | kirim magic link ke email |
+| `2` | paste link dari email → premium aktif |
+| `3` | aktivasi ulang dari sesi tersimpan |
+| `4` | lihat sesi tersimpan |
 
----
-
-## 🚀 Panduan Deployment
-
-### 1. Self-Hosted VPS (Node.js / Systemd)
-
+### web
 ```bash
-# Clone repository
-git clone https://github.com/rndsa/am-reverse.git
-cd am-reverse
-
-# Install dependencies
-npm install --production
-
-# Buat file konfigurasi environment
-cp .env.example .env
-nano .env
-
-# Jalankan server
+npm install
 node server.js
 ```
-
-Untuk menjalankan di background via **Systemd**:
-
-```bash
-# Salin unit file
-sudo cp am-reverse.service /etc/systemd/system/
-sudo systemctl daemon-reload
-sudo systemctl enable --now am-reverse
-```
-
-### 2. Deploy ke Vercel (Serverless)
-
-Project ini sudah dilengkapi konfigurasi `vercel.json` dan otomatis beralih ke mode ephemeral `/tmp` saat dijalankan di Vercel:
-
-```bash
-npm i -g vercel
-vercel --prod
-```
+buka `http://localhost:3300` — ikuti 3 langkah di layar.
 
 ---
 
-## 📡 API Reference Ringkas
+<div align="center">
 
-Base URL: `http://localhost:3000` (atau domain produksi Anda)
+**disclaimer** — ini riset independen. tidak berafiliasi dengan alight creative / google.
+semua merek dagang milik pemiliknya masing-masing. gunakan atas risiko sendiri.
+penyalahgunaan (akun orang lain, massal, komersial) bukan tanggung jawab pembuat.
 
-| Endpoint | Method | Deskripsi | Parameter Utama |
-|---|---|---|---|
-| `/api/send-link` | `GET` / `POST` | Mengirimkan login link ke email target | `email`, `api_key` |
-| `/api/verify-link`| `GET` / `POST` | Verifikasi magic link & provisioning | `email`, `magicLink`, `api_key` |
-| `/api/reactivate` | `GET` / `POST` | Refresh sesi expired menggunakan refresh token | `refreshToken`, `api_key` |
-| `/api/keys` | `GET` / `POST` | Manajemen API Key (Admin Only) | `x-admin-password` |
-
-Dokumentasi lengkap dan contoh respons JSON tersedia di [API_DOCS.md](API_DOCS.md).
-
----
-
-## 🛡️ Security Hardening & Audit Changelog
-
-AM-Reverse telah diaudit dan diperkuat terhadap vektor auth bypass dan kebocoran kredensial:
-
-1. **Origin Header Spoofing Elimination**:
-   - Fungsi verifikasi header `Referer` / `Origin` client (`isSameOrigin`) di middleware dicabut total.
-   - Mengeliminasi celah auth bypass di mana penyerang sebelumnya dapat mem-bypass kewajiban API key hanya dengan memalsukan header referer (`Referer: https://localhost/`).
-2. **Strict Header-Only Credential Enforcement**:
-   - Parameter sensitif `?api_key=` dan `?key=` dicabut dari URL query string pada seluruh endpoint relay dan manajemen kunci.
-   - Seluruh autentikasi wajib dikirimkan melalui header resmi (`x-api-key`, `x-master-key`, atau `Authorization: Bearer <key>`), mencegah kebocoran kredensial pada server access logs, proksi hulu, dan riwayat peramban.
-3. **Hardened Admin Authentication & Sanitized Defaults**:
-   - Menghapus kata sandi default `admin-secret-change-me`; konsol administratif langsung gagal-tertutup (*fail-closed*) jika password tidak dikonfigurasi melalui environment variable.
-   - Seluruh token rahasia upstream Google Firebase dan Play Billing diisolasi penuh ke dalam *environment variables* (`FIREBASE_API_KEY`, `PLAY_PURCHASE_TOKEN`).
-4. **Timing-Safe Comparison**:
-   - Evaluasi pencocokan master key dan admin passkey dievaluasi secara aman guna memitigasi serangan waktu (*timing side-channel attacks*).
-
----
-
-## 📄 Lisensi & Kontribusi
-
-Dilisensikan di bawah [MIT License](LICENSE).
-Dikembangkan oleh **ren** ([@rndsa](https://github.com/rndsa)) — Instagram: [@rskl411_](https://instagram.com/rskl411_).
+</div>

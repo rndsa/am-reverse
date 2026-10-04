@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>am · cara pakai api</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/docs.css">
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>cara pakai <em>api</em></h1>
+  <p>aktivasi premium alight motion via http request · buat bot &amp; otomasi</p>
+</header>
+
+<div class="panel">
+  <h2><svg class="i-svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 22h4M12 2a7 7 0 00-4 12.7V17h8v-2.3A7 7 0 0012 2z"/></svg> intinya gini</h2>
+  <p>API ini ngaktifin premium Alight Motion lewat email. Kamu kirim alamat email → kami kirim link verifikasi ke email itu → user salin link-nya dan kirim balik ke kamu → kamu tukar link itu → akun langsung premium.</p>
+  <p>Cuma <b>2 panggilan API</b>. Sisanya user yang buka email.</p>
+</div>
+
+<div class="panel">
+  <h2><svg class="i-svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 2l-2 2m-7.6 7.6a5.5 5.5 0 11-7.8 7.8 5.5 5.5 0 017.8-7.8zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3"/></svg> sebelum mulai: api key</h2>
+  <p>Kalau aktivasi lewat <b>web ini langsung</b>, gak perlu api key. Api key cuma perlu kalau kamu manggil dari <b>luar</b> · bot, script, aplikasi sendiri.</p>
+  <p>Caranya: kirim lewat <b>header</b> <code>x-api-key</code> di setiap request. Jangan taruh di URL — kredensial di URL bisa kecatat di log server, riwayat browser, dan Referer.</p>
+  <div class="copybox">x-api-key: APIKEYLU</div>
+  <p>Belum punya key atau key kedaluwarsa? Hubungi admin.</p>
+</div>
+
+<div class="panel">
+  <span class="tag grn">langkah 1</span>
+  <h2><svg class="i-svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6"/></svg> kirim link ke email user</h2>
+  <p>Panggil dari bot / script kamu. Ganti email &amp; api key-nya:</p>
+  <div class="copybox">curl -X POST https://v.axjet.xyz/api/send-link \
+  -H <span class="s">"x-api-key: APIKEYLU"</span> \
+  -H <span class="s">"content-type: application/json"</span> \
+  -d <span class="s">'{"email":"emailuser@gmail.com"}'</span></div>
+  <span class="lbl"><svg class="i-svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 17v5M9 3h6l-1 6 3 3v2H7v-2l3-3-1-6z"/></svg> contoh balasan sukses</span>
+  <div class="copybox">{
+  <span class="k">"success"</span>: <span class="s">true</span>,
+  <span class="k">"email"</span>: <span class="s">"emailuser@gmail.com"</span>,
+  <span class="k">"message"</span>: <span class="s">"link dikirim ke emailuser@gmail.com. cek inbox / spam."</span>
+}</div>
+  <span class="lbl"><svg class="i-svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 17v5M9 3h6l-1 6 3 3v2H7v-2l3-3-1-6z"/></svg> contoh balasan gagal</span>
+  <div class="copybox">{
+  <span class="k">"success"</span>: <span class="s">false</span>,
+  <span class="k">"message"</span>: <span class="s">"email gak valid."</span>
+}</div>
+  <p>Kalau <code>success: true</code>, email user langsung dapet link verifikasi dari Alight Motion.</p>
+</div>
+
+<div class="panel">
+  <span class="tag grn">langkah 2</span>
+  <h2><svg class="i-svg" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> tukar link → premium aktif</h2>
+  <div class="step"><span class="num">1</span><div class="txt">User buka email, <b>salin link panjang</b> dari Alight Motion, kirim ke bot kamu.</div></div>
+  <div class="step"><span class="num">2</span><div class="txt">Kamu buka URL ini · ganti email &amp; masukin link yang barusan disalin (jangan ada spasi):</div></div>
+  <div class="copybox">curl -X POST https://v.axjet.xyz/api/verify-link \
+  -H <span class="s">"x-api-key: APIKEYLU"</span> \
+  -H <span class="s">"content-type: application/json"</span> \
+  -d <span class="s">'{"email":"emailuser@gmail.com","magicLink":"LINK_DARI_EMAIL"}'</span></div>
+  <span class="lbl"><svg class="i-svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 17v5M9 3h6l-1 6 3 3v2H7v-2l3-3-1-6z"/></svg> contoh balasan sukses (dipotong)</span>
+  <div class="copybox">{
+  <span class="k">"success"</span>: <span class="s">true</span>,
+  <span class="k">"message"</span>: <span class="s">"verifikasi berhasil, premium aktif."</span>,
+  <span class="k">"data"</span>: {
+    <span class="k">"status"</span>: <span class="s">"ACTIVE"</span>,
+    <span class="k">"membershipStatus"</span>: <span class="s">"PREMIUM_ACTIVE"</span>,
+    <span class="k">"planName"</span>: <span class="s">"Alight Motion Pro / Member"</span>,
+    <span class="k">"validUntil"</span>: <span class="s">"1 September 2027"</span>,
+    <span class="k">"expiryTimeMillis"</span>: <span class="s">1819796995395</span>,
+    <span class="k">"engine"</span>: <span class="s">"standard"</span>,
+    <span class="k">"email"</span>: <span class="s">"emailuser@gmail.com"</span>,
+    <span class="k">"uid"</span>: <span class="s">"GSyZUOi..."</span>,
+    <span class="k">"idToken"</span>: <span class="s">"eyJhbGci..."</span>,
+    <span class="k">"refreshToken"</span>: <span class="s">"AM3-vEv..."</span>
+  }
+}</div>
+  <span class="lbl"><svg class="i-svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 17v5M9 3h6l-1 6 3 3v2H7v-2l3-3-1-6z"/></svg> contoh balasan gagal (link kedaluwarsa)</span>
+  <div class="copybox">{
+  <span class="k">"success"</span>: <span class="s">false</span>,
+  <span class="k">"message"</span>: <span class="s">"magic link kedaluwarsa / sudah dipakai. kirim ulang (langkah 1)."</span>
+}</div>
+  <p><b>Selesai!</b> Akun user langsung premium. Kamu tinggal baca <code>validUntil</code> buat kasih tahu user masa aktifnya.</p>
+</div>
+
+<div class="panel">
+  <h2><svg class="i-svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> isi balasan langkah 2 · apa artinya</h2>
+  <table>
+    <tr><th>field</th><th>artinya</th></tr>
+    <tr><td><code>status</code></td><td>ACTIVE = premium nyala</td></tr>
+    <tr><td><code>validUntil</code></td><td>tanggal terakhir premium aktif, contoh “1 September 2027”</td></tr>
+    <tr><td><code>expiryTimeMillis</code></td><td>tanggal yang sama, format angka (gampang buat dihitung program)</td></tr>
+    <tr><td><code>idToken</code></td><td>token akun · simpan kalau mau panggil endpoint lain</td></tr>
+    <tr><td><code>refreshToken</code></td><td>token panjang · buat perpanjang tanpa verifikasi ulang</td></tr>
+    <tr><td><code>engine</code></td><td>jalur server yang kepakai (internal, cuekin aja)</td></tr>
+  </table>
+</div>
+
+<div class="panel">
+  <h2><svg class="i-svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.5 9a9 9 0 0114.9-3.4L23 10M1 14l4.6 4.4A9 9 0 0020.5 15"/></svg> bonus: perpanjang tanpa verifikasi ulang</h2>
+  <p>Punya <code>refreshToken</code> dari langkah 2? Bisa perpanjang premium langsung tanpa minta link email lagi:</p>
+  <div class="copybox">curl -X POST https://v.axjet.xyz/api/reactivate \
+  -H <span class="s">"x-api-key: APIKEYLU"</span> \
+  -H <span class="s">"content-type: application/json"</span> \
+  -d <span class="s">'{"refreshToken":"TOKENLU"}'</span></div>
+  <span class="lbl"><svg class="i-svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 17v5M9 3h6l-1 6 3 3v2H7v-2l3-3-1-6z"/></svg> contoh balasan sukses</span>
+  <div class="copybox">{
+  <span class="k">"success"</span>: <span class="s">true</span>,
+  <span class="k">"message"</span>: <span class="s">"Token berhasil di-refresh dan premium diperpanjang."</span>,
+  <span class="k">"data"</span>: {
+    <span class="k">"status"</span>: <span class="s">"ACTIVE"</span>,
+    <span class="k">"idToken"</span>: <span class="s">"eyJhbGci..."</span>,
+    <span class="k">"refreshToken"</span>: <span class="s">"AM3-vEv..."</span>
+  }
+}</div>
+</div>
+
+<div class="panel">
+  <h2><svg class="i-svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> info publik (tanpa api key)</h2>
+  <p>Cek server hidup atau tidak:</p>
+  <div class="copybox">https://v.axjet.xyz/api/status</div>
+  <span class="lbl"><svg class="i-svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 17v5M9 3h6l-1 6 3 3v2H7v-2l3-3-1-6z"/></svg> contoh balasan</span>
+  <div class="copybox">{ <span class="k">"status"</span>: <span class="s">"online"</span> }</div>
+  <p>Cek statistik aktivasi:</p>
+  <div class="copybox">https://v.axjet.xyz/api/stats</div>
+  <span class="lbl"><svg class="i-svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 17v5M9 3h6l-1 6 3 3v2H7v-2l3-3-1-6z"/></svg> contoh balasan</span>
+  <div class="copybox">{ <span class="k">"success"</span>: <span class="s">true</span>, <span class="k">"total"</span>: <span class="s">296</span>, <span class="k">"today"</span>: <span class="s">2</span> }</div>
+</div>
+
+<div class="panel">
+  <h2><svg class="i-svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 015.8 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> masalah umum</h2>
+  <p class="q">Link dari email gak jalan?</p>
+  <p>Link cuma hidup <b>± 5 menit</b> dan cuma bisa dipakai <b>sekali</b>. Ulangi langkah 1 buat kirim link baru.</p>
+  <p class="q">Dapet “unauthorized”?</p>
+  <p>Api key salah / kosong / kedaluwarsa. Cek lagi header <code>x-api-key</code> sudah terpasang benar.</p>
+  <p class="q">Email gak dapet link?</p>
+  <p>Suruh user cek folder <b>spam / junk</b>. Kalau tetep kosong, tunggu 1–2 menit lalu ulangi langkah 1.</p>
+  <p class="q">Premium gak nempel di akun?</p>
+  <p>Pastikan user <b>nggak buka</b> link dari email · link harus masih segel pas disalin ke kamu. Link yang udah dibuka gak bisa ditukar.</p>
+</div>
+
+<div class="note red"><b>jangan share api key</b> ke orang lain. Satu key = tanggung jawab kamu.</div>
+
+<div class="btnrow">
+  <a href="/" class="main">← web aktivasi</a>
+</div>
+
+</div>
+</body>
+</html>

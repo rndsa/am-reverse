@@ -1,0 +1,256 @@
+:root {
+      --bg: #f5f1e8;
+      --ink: #111111;
+      --card: #ffffff;
+      --acc: #ffde00;
+      --acc2: #2563eb;
+      --hot: #ff4d4d;
+      --grn: #00c853;
+      --grn-ink: #0d7a34;
+      --hot-ink: #c81e1e;
+      --line: 3px solid var(--ink);
+      --shadow: 6px 6px 0 var(--ink);
+    }
+    html[data-theme="dark"] {
+      --bg: #1a1a1f;
+      --ink: #e8e6df;
+      --card: #232329;
+      --acc: #f5d90a;
+      --acc2: #6b93ff;
+      --hot: #ff6b6b;
+      --grn: #2dd470;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box }
+    body {
+      font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+      background-image: radial-gradient(var(--ink) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    html[data-theme="dark"] body {
+      background-image: radial-gradient(rgba(232,230,223,.18) 1px, transparent 1px);
+    }
+    .mono { font-family: 'Space Mono', monospace }
+    h1, h2, h3, .tag, button, .stat-num { font-family: 'Archivo Black', sans-serif; text-transform: uppercase }
+
+    .tag {
+      display: inline-block; font-size: 12px; letter-spacing: .08em;
+      padding: 3px 9px; border: var(--line); box-shadow: 3px 3px 0 var(--ink);
+      background: var(--bg); margin-bottom: 8px; font-weight: normal
+    }
+    .tag.blue { background: var(--acc2); color: #fff }
+    .tag.grn  { background: var(--grn); color: #111111 }
+    .tag.acc  { background: var(--acc) }
+    .tag.hot { background: var(--hot); color: #111111 }
+
+    /* ---------- LOGIN GATE ---------- */
+    #gate {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px;
+    }
+    .gate-box {
+      width: 100%; max-width: 420px; background: var(--card);
+      border: var(--line); box-shadow: 10px 10px 0 var(--ink);
+      padding: 34px 28px; text-align: center
+    }
+    .gate-box h2 { font-size: 26px; letter-spacing: -0.5px; margin: 10px 0 6px }
+    .gate-box .sub { font-family: 'Space Mono', monospace; font-size: 12px; color: #6b6b6b; margin-bottom: 20px }
+    .gate-box input {
+      width: 100%; background: var(--bg); border: var(--line);
+      font-family: 'Space Mono', monospace; font-size: 14px; font-weight: 700;
+      padding: 13px 14px; outline: none; text-align: center; letter-spacing: 2px
+    }
+    .gate-box input:focus { box-shadow: 4px 4px 0 var(--acc2); border-color: var(--acc2) }
+    .gate-btn {
+      width: 100%; margin-top: 16px; font-size: 14px; padding: 14px;
+      background: var(--acc); border: var(--line); box-shadow: 5px 5px 0 var(--ink);
+      cursor: pointer; transition: transform .08s, box-shadow .08s
+    }
+    .gate-btn:hover { transform: translate(-1px,-1px); box-shadow: 6px 6px 0 var(--ink) }
+    .gate-btn:active { transform: translate(4px,4px); box-shadow: 1px 1px 0 var(--ink) }
+    .gate-btn:disabled { opacity: .5; cursor: wait }
+    .gate-err {
+      display: none; margin-top: 14px; padding: 9px; font-weight: 700; font-size: 12px;
+      background: var(--hot); color: #111111; border: var(--line); box-shadow: 3px 3px 0 var(--ink)
+    }
+
+    /* ---------- PANEL ---------- */
+    #mainApp { display: none; max-width: 1100px; margin: 0 auto; padding: 28px 18px 60px }
+    header.phead {
+      display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;
+      margin-bottom: 26px; flex-wrap: wrap
+    }
+    header.phead h1 { font-size: 30px; letter-spacing: -1px; line-height: 1.05 }
+    header.phead h1 em { font-style: normal; background: var(--acc); padding: 0 8px; box-shadow: 4px 4px 0 var(--ink); display: inline-block; transform: rotate(-1deg) }
+    .hbtns { display: flex; gap: 10px; flex-wrap: wrap; align-items: center }
+
+    .pbtn {
+      font-size: 12px; padding: 9px 16px; background: var(--card); border: var(--line);
+      box-shadow: 4px 4px 0 var(--ink); cursor: pointer;
+      transition: transform .08s, box-shadow .08s; color: var(--ink)
+    }
+    .pbtn:hover { transform: translate(-1px,-1px); box-shadow: 5px 5px 0 var(--ink) }
+    .pbtn:active { transform: translate(3px,3px); box-shadow: 1px 1px 0 var(--ink) }
+    .pbtn.blue { background: var(--acc2); color: #fff }
+    .pbtn.grn  { background: var(--grn); color: #111111 }
+    .pbtn.hot { background: var(--hot); color: #111111 }
+    .pbtn.acc  { background: var(--acc) }
+
+    /* Stats grid */
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px }
+    .stat-card {
+      background: var(--card); border: var(--line); box-shadow: var(--shadow); padding: 16px 18px
+    }
+    .stat-card label {
+      display: block; font-family: 'Space Mono', monospace; font-weight: 700;
+      font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: #6b6b6b; margin-bottom: 6px
+    }
+    .stat-num { font-size: 30px; line-height: 1 }
+    .stat-sub { font-family: 'Space Mono', monospace; font-size: 12px; margin-top: 6px; color: #6b6b6b }
+    .stat-sub b { color: var(--ink) }
+        .stat-card.acc { background: var(--acc) }
+    .stat-card.acc label,
+    .stat-card.acc .stat-sub,
+    .stat-card.acc .stat-sub b { color: var(--ink) }
+    .stat-card.grn { background: var(--grn); color: #111111 }
+    .stat-card.grn .stat-sub, .stat-card.grn .stat-sub b { color: #111111 }
+    .stat-card.grn .stat-sub { opacity: .9 }
+
+    /* Tabs */
+    .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px }
+    .tab {
+      font-size: 12px; padding: 10px 18px; background: var(--card);
+      border: var(--line); box-shadow: 4px 4px 0 var(--ink); cursor: pointer;
+      transition: transform .08s
+    }
+    .tab:hover { transform: translate(-1px,-1px) }
+    .tab.on { background: var(--ink); color: var(--acc) }
+
+    /* Panels & tables */
+    .sec { background: var(--card); border: var(--line); box-shadow: var(--shadow); margin-bottom: 24px }
+    .sec-head {
+      display: flex; justify-content: space-between; align-items: center; gap: 10px;
+      padding: 16px 18px; border-bottom: var(--line); background: var(--bg); flex-wrap: wrap
+    }
+    .sec-head h2 { font-size: 15px }
+    .sec-head .sub { font-family: 'Space Mono', monospace; font-size: 12px; color: #6b6b6b; margin-top: 2px }
+    .sec-tools { display: flex; gap: 8px; align-items: center; flex-wrap: wrap }
+    .sec input[type="text"], .sec input[type="number"], .sec input[type="password"] {
+      background: var(--bg); border: 2px solid var(--ink); font-family: 'Space Mono', monospace;
+      font-size: 12px; padding: 8px 10px; outline: none
+    }
+    .sec input:focus { box-shadow: 3px 3px 0 var(--acc2) }
+
+    .tblwrap { overflow-x: auto }
+    table { width: 100%; border-collapse: collapse; font-size: 12.5px }
+    thead th {
+      font-family: 'Space Mono', monospace; font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: .06em; text-align: left;
+      padding: 11px 16px; background: var(--card); border-bottom: var(--line); white-space: nowrap
+    }
+    tbody td { padding: 11px 16px; border-bottom: 2px dashed #ccc; vertical-align: middle }
+    tbody tr:last-child td { border-bottom: none }
+    tbody tr:hover { background: rgba(255,222,0,.18) }
+
+    .pill {
+      display: inline-block; font-family: 'Space Mono', monospace; font-weight: 700;
+      font-size: 12px; text-transform: uppercase; letter-spacing: .05em;
+      padding: 3px 9px; border: 2px solid var(--ink); cursor: pointer; box-shadow: 2px 2px 0 var(--ink)
+    }
+    .pill.on { background: var(--grn); color: #111111 }
+    .pill.off { background: var(--hot); color: #111111 }
+    .pill.code { background: var(--card); cursor: default }
+    .pill.ok { background: var(--grn); color: #111111; cursor: default }
+    .pill.warn { background: var(--acc); cursor: default }
+    .pill.err { background: var(--hot); color: #111111; cursor: default }
+    .method { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 12px }
+
+    /* Settings form */
+    .form-body { padding: 18px }
+    .frow { margin-bottom: 16px }
+    .frow label {
+      display: block; font-family: 'Space Mono', monospace; font-weight: 700;
+      font-size: 12px; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px
+    }
+    .frow input[type="text"], .frow input[type="number"] {
+      width: 100%; background: var(--bg); border: var(--line);
+      font-family: 'Space Mono', monospace; font-size: 13px; padding: 10px 12px; outline: none
+    }
+    .frow input:focus { box-shadow: 3px 3px 0 var(--acc2); border-color: var(--acc2) }
+    .toggle {
+      display: flex; justify-content: space-between; align-items: center; gap: 12px;
+      background: var(--bg); border: var(--line); padding: 14px; margin-bottom: 14px
+    }
+    .toggle .tt { font-weight: 700; font-size: 13px }
+    .toggle .ts { font-family: 'Space Mono', monospace; font-size: 12px; color: #6b6b6b; margin-top: 2px }
+    .sw { position: relative; width: 54px; height: 28px; flex-shrink: 0 }
+    .sw input { opacity: 0; width: 0; height: 0 }
+    .sw span {
+      position: absolute; inset: 0; background: #ccc; border: var(--line);
+      cursor: pointer; transition: background .15s
+    }
+    .sw span::before {
+      content: ""; position: absolute; width: 18px; height: 18px; left: 3px; top: 2px;
+      background: var(--card); border: 2px solid var(--ink); transition: transform .15s
+    }
+    .sw input:checked + span { background: var(--grn) }
+    .sw input:checked + span::before { transform: translateX(26px) }
+
+    /* Modals */
+    .modal { position: fixed; inset: 0; background: rgba(17,17,17,.72); display: none; align-items: center; justify-content: center; padding: 18px; z-index: 100 }
+    .modal.open { display: flex }
+    .mbox {
+      width: 100%; max-width: 440px; background: var(--card); border: var(--line);
+      box-shadow: 10px 10px 0 var(--ink); padding: 26px
+    }
+    .mbox h3 { font-size: 18px; margin: 8px 0 4px }
+    .mbox .msub { font-family: 'Space Mono', monospace; font-size: 12px; color: #6b6b6b; margin-bottom: 16px }
+    .mbox input { width: 100%; background: var(--bg); border: var(--line); font-family: 'Space Mono', monospace; font-size: 13px; padding: 11px 12px; outline: none; margin-bottom: 4px }
+    .mbox input:focus { box-shadow: 3px 3px 0 var(--acc2); border-color: var(--acc2) }
+    .mrow { display: flex; gap: 10px; justify-content: flex-end; margin-top: 14px }
+
+    .newkey-box {
+      background: var(--bg); color: var(--grn-ink); border: var(--line);
+      font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700;
+      padding: 12px; word-break: break-all; box-shadow: 3px 3px 0 var(--acc2); margin-bottom: 14px
+    }
+
+    footer.pfoot { text-align: center; font-family: 'Space Mono', monospace; font-size: 12px; color: #6b6b6b; margin-top: 30px }
+    footer.pfoot b { background: var(--ink); color: var(--bg); padding: 1px 6px }
+    .empty { text-align: center; padding: 30px; font-family: 'Space Mono', monospace; font-size: 12px; color: #6b6b6b }
+
+    /* ---------- THEME SWITCHER ---------- */
+    .theme-switch {
+      position: fixed; top: 14px; right: 14px; z-index: 90;
+      display: inline-flex; align-items: center;
+      border: var(--line); box-shadow: 3px 3px 0 var(--ink);
+      background: var(--card); font-family: 'Space Mono', monospace
+    }
+    .theme-switch button {
+      margin: 0; padding: 6px 10px; font-family: 'Space Mono', monospace;
+      font-weight: 700; font-size: 12px; text-transform: uppercase;
+      background: transparent; color: var(--ink);
+      border: none; box-shadow: none; cursor: pointer
+    }
+    .theme-switch button.on { background: var(--acc); color: #111 }
+    .theme-switch button:hover { transform: none; box-shadow: none }
+  
+.i-svg { vertical-align: -2px; flex-shrink: 0 }
+input::placeholder, textarea::placeholder { color: #6b6b6b; opacity: 1 }
+
+    /* [FIX CSP] utility class pengganti inline style */
+    .s-hint { font-size: 12px; margin-top: 6px; color: #555 }
+    .no-deco { text-decoration: none }
+    .ink-grn { color: var(--grn-ink) }
+    .tab-pane { display: none }
+
+    /* [FIX CSP] utility pengganti inline style di tabel */
+    .fw7 { font-weight: 700 }
+    .fs12 { font-size: 12px }
+    .c555 { color: #555 }
+    .ink-hot { color: var(--hot-ink) }
+    .row-g8 { display: flex; align-items: center; gap: 8px }
+    .ellipsis { max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+    .method.m-post { color: var(--acc2) }
+    .method.m-other { color: #555 }

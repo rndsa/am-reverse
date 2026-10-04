@@ -1,0 +1,16 @@
+node_modules/
+.vercel/
+.git/
+.gitignore
+data/
+.env
+.env.*
+*.log
+*.tar.gz
+am-reverse-backups/
+worker/
+# preview PNG di folder assets/ TOP-LEVEL (bukan public/assets/ yang berisi JS app)
+/assets/preview-*.png
+__pycache__/
+*.pyc
+.DS_Store

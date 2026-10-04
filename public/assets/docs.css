@@ -1,0 +1,86 @@
+:root {
+  --bg: #f5f1e8; --ink: #111111; --card: #ffffff;
+  --acc: #ffde00; --acc2: #3d7bff; --hot: #ff4d4d; --grn: #00c853;
+  --line: 3px solid var(--ink); --shadow: 6px 6px 0 var(--ink);
+}
+html[data-theme="dark"] {
+  --bg: #1a1a1f; --ink: #e8e6df; --card: #232329;
+  --acc: #f5d90a; --acc2: #6b93ff; --hot: #ff6b6b; --grn: #2dd470;
+}
+* { margin: 0; padding: 0; box-sizing: border-box }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: 'DM Sans', system-ui, sans-serif; font-size: 14.5px; line-height: 1.65;
+  min-height: 100vh; padding: 40px 16px 60px;
+  background-image: radial-gradient(color-mix(in srgb, var(--ink) 35%, transparent) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.wrap { max-width: 560px; margin: 0 auto }
+h1, h2, .tag { font-family: 'Archivo Black', sans-serif; text-transform: uppercase }
+
+header { margin-bottom: 24px }
+header h1 { font-size: 30px; line-height: 1.15; letter-spacing: -1px }
+header h1 em { font-style: normal; background: var(--acc); color: #1a1a1f; padding: 0 8px; box-shadow: 4px 4px 0 var(--ink); display: inline-block; transform: rotate(-1deg) }
+header p { font-family: 'Space Mono', monospace; font-size: 12px; margin-top: 8px; background: var(--ink); color: var(--bg); display: inline-block; padding: 3px 10px }
+
+.tag { display: inline-block; font-size: 12px; letter-spacing: .08em; padding: 3px 9px; border: var(--line); box-shadow: 3px 3px 0 var(--ink); background: var(--bg); margin-bottom: 8px }
+.tag.grn { background: var(--grn); color: #0c1f14 }
+.tag.acc { background: var(--acc); color: #1a1a1f }
+
+.panel { background: var(--card); border: var(--line); box-shadow: var(--shadow); padding: 20px; margin-bottom: 20px }
+.panel h2 { font-size: 16px; margin-bottom: 10px; letter-spacing: -.3px }
+.panel p { margin-bottom: 10px }
+.panel p:last-child { margin-bottom: 0 }
+
+.num {
+  display: inline-block; width: 26px; height: 26px; line-height: 26px; text-align: center;
+  background: var(--acc); color: #1a1a1f; border: var(--line); box-shadow: 2px 2px 0 var(--ink);
+  font-family: 'Archivo Black', sans-serif; font-size: 13px; margin-right: 8px;
+}
+.step { display: flex; gap: 10px; margin-bottom: 12px; align-items: flex-start }
+.step:last-of-type { margin-bottom: 0 }
+.step .txt { flex: 1 }
+.step b { font-weight: 700 }
+
+.lbl { font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; text-transform: none; letter-spacing: 0; margin: 10px 0 4px; display: block }
+.lbl.res { color: var(--grn) }
+html[data-theme="dark"] .lbl.res { color: var(--grn) }
+
+code {
+  font-family: 'Space Mono', monospace; font-size: 12px;
+  background: color-mix(in srgb, var(--ink) 12%, transparent); padding: 1px 6px;
+  word-break: break-all;
+}
+.copybox {
+  font-family: 'Space Mono', monospace; font-size: 12px; line-height: 1.55;
+  background: color-mix(in srgb, var(--ink) 92%, transparent); color: #d4d4c8;
+  padding: 12px 14px; border: 2px solid var(--ink); margin: 4px 0 6px;
+  word-break: break-all; white-space: pre-wrap; user-select: all;
+}
+html[data-theme="dark"] .copybox { background: #111114; border-color: #000 }
+.copybox .k { color: #8fd4ff }
+.copybox .s { color: #a8e6a3 }
+.copybox .c { color: #777 }
+
+.note { border: var(--line); box-shadow: 4px 4px 0 var(--ink); padding: 12px 14px; margin: 12px 0; font-size: 13px; background: color-mix(in srgb, var(--acc) 25%, var(--card)) }
+.note b { font-family: 'Space Mono', monospace }
+.note.red { background: color-mix(in srgb, var(--hot) 22%, var(--card)) }
+
+.btnrow { display: flex; gap: 10px; flex-wrap: wrap; margin: 22px 0 }
+.btnrow a {
+  display: inline-block; padding: 9px 16px; border: var(--line); box-shadow: 4px 4px 0 var(--ink);
+  background: var(--card); color: var(--ink); text-decoration: none;
+  font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; text-transform: none;
+}
+.btnrow a:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--ink) }
+.btnrow a.main { background: var(--acc); color: #1a1a1f }
+
+.q { font-family: 'Space Mono', monospace; font-weight: 700; margin-bottom: 4px }
+.q:not(:first-child) { margin-top: 14px }
+table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 8px 0 }
+td, th { border: 2px solid var(--ink); padding: 7px 10px; text-align: left }
+th { background: var(--acc); color: #1a1a1f; font-family: 'Space Mono', monospace; font-size: 12px; text-transform: uppercase }
+html[data-theme="dark"] th { color: #111 }
+td code { white-space: nowrap }
+
+.i-svg { vertical-align: -2px; flex-shrink: 0 }

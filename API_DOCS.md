@@ -4,7 +4,7 @@ API aktivasi Alight Motion Premium otomatis. Magic link dikirim ke email, akun l
 
 **Base URL**: `https://v.axjet.xyz`
 
-**Sistem aktivasi Hybrid**: server mencoba provider utama (expiry **1 September 2027**) dulu. Kalau provider utama bermasalah, otomatis pindah ke cadangan — aktivasi tetap sukses, hanya beda tanggal kadaluarsa. Field `engine` di respons menunjukkan yang dipakai: `dhans` (utama) atau `annual` (cadangan).
+**Sistem aktivasi Hybrid**: server mencoba provider utama (expiry **1 September 2027**) dulu. Kalau provider utama bermasalah, otomatis pindah ke cadangan — aktivasi tetap sukses, hanya beda tanggal kadaluarsa. Field `engine` di respons menunjukkan yang dipakai: utama atau cadangan.
 
 ---
 
@@ -16,9 +16,11 @@ Semua request dari **luar** (bukan dari Web UI) wajib bawa API Key, lewat salah 
 | --- | --- |
 | Header | `x-api-key: am-sk-xxxxx` |
 | Header Bearer | `Authorization: Bearer am-sk-xxxxx` |
-| Query param | `?api_key=am-sk-xxxxx` |
+| ~~Query param~~ | ❌ **DILARANG** — `?api_key=` bocor ke log/Referer/riwayat |
 
-> Kalau pakai **GET**, paling gampang lewat query param: `?email=...&api_key=am-sk-xxxxx`
+> ⚠️ **Kredensial lewat URL DILARANG.** API key di query string bisa kecatat di log server,
+> riwayat browser, dan header Referer. **Selalu** kirim lewat header. Contoh lama yang memakai
+> `?api_key=` sudah **tidak berfungsi** (menerima 401).
 
 ---
 
@@ -28,14 +30,10 @@ Semua request dari **luar** (bukan dari Web UI) wajib bawa API Key, lewat salah 
 
 Kirim link verifikasi ke email (cek inbox/spam).
 
-**GET**
-```
-GET /api/send-link?email=user@gmail.com&api_key=am-sk-xxxxx
-```
-
-**POST** (alternatif)
+**POST**
 ```json
 POST /api/send-link
+Header: x-api-key: am-sk-xxxxx
 { "email": "user@gmail.com" }
 ```
 
@@ -54,15 +52,10 @@ POST /api/send-link
 
 Tukar magic link dari email dengan token akun. Param `rawLink` menerima URL lengkap dari email, atau cuma kode `oobCode`-nya saja.
 
-**GET**
-```
-GET /api/verify?email=user@gmail.com&rawLink=https://alightcreative.com/auth_action/?...oobCode=xxx&api_key=am-sk-xxxxx
-```
-*(ingat URL-encode magic link-nya)*
-
-**POST** (alternatif)
+**POST**
 ```json
 POST /api/verify
+Header: x-api-key: am-sk-xxxxx
 { "email": "user@gmail.com", "rawLink": "https://alightcreative.page.link/...?oobCode=xxx" }
 ```
 
@@ -90,9 +83,11 @@ POST /api/verify
 
 Aktifkan premium pakai `idToken` dari langkah 2.
 
-**GET**
-```
-GET /api/provision?email=user@gmail.com&idToken=eyJhbGci...&api_key=am-sk-xxxxx
+**POST**
+```json
+POST /api/provision
+Header: x-api-key: am-sk-xxxxx
+{ "email": "user@gmail.com", "idToken": "eyJhbGci..." }
 ```
 
 **POST** (alternatif)
@@ -107,7 +102,7 @@ POST /api/provision
   "success": true,
   "message": "premium berhasil diaktifkan.",
   "data": {
-    "engine": "dhans",
+    "engine": "standard",
     "status": "ACTIVE",
     "membershipStatus": "PREMIUM_ACTIVE",
     "planName": "Alight Motion Pro / Member",
@@ -127,9 +122,11 @@ POST /api/provision
 
 Gabungan langkah 2 + 3 dalam satu panggilan — paling praktis untuk bot.
 
-**GET**
-```
-GET /api/verify-link?email=user@gmail.com&magicLink=https://alightcreative.page.link/...&api_key=am-sk-xxxxx
+**POST**
+```json
+POST /api/verify-link
+Header: x-api-key: am-sk-xxxxx
+{ "email": "user@gmail.com", "magicLink": "https://alightcreative.page.link/..." }
 ```
 *(alias param link: `magicLink`, `rawLink`, `link`, `url`, `code`)*
 
@@ -145,7 +142,7 @@ POST /api/verify-link
   "success": true,
   "message": "verifikasi berhasil, premium aktif.",
   "data": {
-    "engine": "dhans",
+    "engine": "standard",
     "uid": "GSyZUOi...",
     "email": "user@gmail.com",
     "status": "ACTIVE",
@@ -166,9 +163,11 @@ POST /api/verify-link
 
 Refresh token akun + re-aktivasi premium. Berguna kalau `idToken` kedaluwarsa (umur ± 1 jam).
 
-**GET**
-```
-GET /api/reactivate?refreshToken=AM3-vEv...&api_key=am-sk-xxxxx
+**POST**
+```json
+POST /api/reactivate
+Header: x-api-key: am-sk-xxxxx
+{ "refreshToken": "AM3-vEv..." }
 ```
 
 **POST** (alternatif)
@@ -183,7 +182,7 @@ POST /api/reactivate
   "success": true,
   "message": "Token berhasil di-refresh dan premium diperpanjang.",
   "data": {
-    "engine": "dhans",
+    "engine": "standard",
     "status": "ACTIVE",
     "idToken": "eyJhbGci...",
     "refreshToken": "AM3-vEv..."
@@ -205,17 +204,17 @@ GET /api/stats    → { "success": true, "total": 296, "today": 2 }
 ## 🔄 Urutan Lengkap (contoh nyata)
 
 ```
-1. GET /api/send-link?email=budi@gmail.com&api_key=am-sk-xxxxx
+1. POST /api/send-link  {email: budi@gmail.com}
 2. (budi buka email, salin magic link-nya)
-3. GET /api/verify-link?email=budi@gmail.com&magicLink=URL_MAGIC_LINK&api_key=am-sk-xxxxx
+3. POST /api/verify-link  {email: budi@gmail.com, magicLink: URL_MAGIC_LINK}
    → selesai! premium aktif, respon berisi validUntil.
 ```
 
 Atau mode manual (verifikasi & aktivasi terpisah):
 ```
-1. GET /api/send-link?email=budi@gmail.com&api_key=am-sk-xxxxx
-2. GET /api/verify?email=budi@gmail.com&rawLink=MAGIC_LINK&api_key=am-sk-xxxxx → dapat idToken
-3. GET /api/provision?email=budi@gmail.com&idToken=ID_TOKEN&api_key=am-sk-xxxxx → premium aktif
+1. POST /api/send-link  {email: budi@gmail.com}
+2. POST /api/verify  {email: budi@gmail.com, rawLink: MAGIC_LINK} → dapat idToken
+3. POST /api/provision  {email: budi@gmail.com, idToken: ID_TOKEN} → premium aktif
 ```
 
 ---
@@ -223,7 +222,7 @@ Atau mode manual (verifikasi & aktivasi terpisah):
 ## 📝 Catatan
 
 * **Magic link hanya berlaku ± 5 menit** dan sekali pakai. Kalau gagal, kirim ulang magic link (langkah 1).
-* Field `engine` di respon: `dhans` = jalur utama (expiry 1 September 2027), `annual` = jalur cadangan.
+* Field `engine` di respon: utama = jalur utama (expiry 1 September 2027), cadangan = jalur cadangan otomatis.
 * `expiryTimeMillis` = tanggal kadaluarsa **asli dari server Alight** (bukan perkiraan).
 * Web UI di `https://v.axjet.xyz` bisa dipakai tanpa API Key — request dari halaman sendiri gratis.
 * Error umum: `401` API key salah/kosong · `400` email/link tidak valid atau magic link kedaluwarsa · `503` layanan sedang dimatikan admin.
@@ -232,14 +231,20 @@ Atau mode manual (verifikasi & aktivasi terpisah):
 
 ## 🛠️ Manajemen API Key (Admin)
 
-Gunakan Master API Key untuk mengelola key client:
+> ⚠️ **Penting:** sejak pemisahan hak, **Master API Key TIDAK bisa lagi** mengakses endpoint admin
+> (akan menerima `403`). Endpoint admin hanya menerima **Admin Key** (`am-adm-...`) atau
+> **token sesi** hasil login panel.
 
 | Aksi | Endpoint |
 | --- | --- |
+| Login panel | `POST /api/keys/login` body `{"password": "..."}` → dapat token sesi |
 | Buat key baru | `POST /api/keys` body `{"name": "Bot Telegram"}` |
 | Lihat semua key + pemakaian | `GET /api/keys` |
 | Cabut key | `DELETE /api/keys/:key` |
 
-Semua pakai header `x-api-key: <MASTER_KEY>`.
+Semua pakai header `x-master-key: am-adm-xxxxx` (atau `Authorization: Bearer am-adm-xxxxx`),
+atau `x-admin-password: <token sesi>` setelah login.
+
+**Master API Key** (`am-sk-...`) hanya untuk memanggil endpoint aktivasi, **bukan** untuk admin.
 
 Admin panel: `https://v.axjet.xyz/panel-x8k2`

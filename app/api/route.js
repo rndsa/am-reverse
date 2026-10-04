@@ -9,9 +9,13 @@ const { requireApiKey, optionalApiKey } = require('../../lib/middleware');
 
 const router = express.Router();
 
+// [FIX C1] Token sesi web (pengganti cek Origin/Referer yang spoofable)
+router.use('/websession', require('./websession/route'));
+
 // Public health & stats
 router.use('/status', statusRoute);
 router.use('/stats', statsRoute);
+router.use('/activity', require('./activity/route'));
 
 // Admin keys management
 router.use('/keys', keysRoute);

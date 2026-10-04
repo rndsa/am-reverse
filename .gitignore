@@ -3,3 +3,11 @@ data/
 .env
 *.log
 data/
+.vercel
+
+# --- kredensial & state lokal (JANGAN commit) ---
+worker/wrangler.toml
+worker/.wrangler/
+.wrangler/
+.env.prod-secrets
+.env.*.secrets
